@@ -12,6 +12,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import util.HibernateUtility;
 
@@ -76,7 +77,7 @@ public class DataBaseBroker {
         Session sesija = HibernateUtility.getSessionFactory().openSession();
         sesija.beginTransaction();
         Criteria crit = null;
-        List<AbstractDomainObject> lista = null;
+        List<AbstractDomainObject> lista;
         switch (sk) {
             case 0: //vratiUlogeZaAvion
                 crit = sesija.createCriteria(Uloga.class);
@@ -102,6 +103,15 @@ public class DataBaseBroker {
         lista = crit.list();
         sesija.getTransaction().commit();
         return lista;
+    }
+
+    public static int getMaxAvionID() {
+        Session sesija = HibernateUtility.getSessionFactory().openSession();
+        sesija.beginTransaction();
+        Criteria criteria = sesija.createCriteria(Avion.class).setProjection(Projections.max("avionID"));
+        Integer maxID = (Integer) criteria.uniqueResult();
+        sesija.getTransaction().commit();
+        return maxID;
     }
 
 }

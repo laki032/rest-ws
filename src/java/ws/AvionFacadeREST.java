@@ -7,7 +7,6 @@ import domain.Tipaviona;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -65,7 +64,13 @@ public class AvionFacadeREST {
     @POST
     @Consumes("application/json")
     public boolean create(Avion entity) {
-        return DataBaseBroker.kreirajIUbaci(entity);
+        if (entity.getAvionID() == 0) {
+            //promeni id entity-ja na max avionID + 1
+            entity.setAvionID(DataBaseBroker.getMaxAvionID() + 1);
+            return DataBaseBroker.kreirajIUbaci(entity);
+        } else {
+            return false;
+        }
     }
 
     @POST
