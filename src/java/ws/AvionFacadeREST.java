@@ -77,6 +77,7 @@ public class AvionFacadeREST {
     @Path("edit/{id}")
     @Consumes("application/json")
     public boolean edit(@PathParam("id") int id, Avion entity) {
+        entity.setAvionID(id);
         return DataBaseBroker.azuriraj(entity);
     }
 
