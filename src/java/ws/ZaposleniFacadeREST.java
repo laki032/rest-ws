@@ -70,22 +70,33 @@ public class ZaposleniFacadeREST {
 
     @GET
     @Path("delete/{id}")
-    public boolean remove(@PathParam("id") String id) {
-        //ne moze ovako
-        return DataBaseBroker.obrisi(new Zaposleni(id));
+    public String remove(@PathParam("id") String id) {
+        if (DataBaseBroker.obrisi(new Zaposleni(id))) {
+            return "uspesno brisanje zaposlenog " + id;
+        } else {
+            return "brisanje nije uspelo";
+        }
     }
 
     @POST
     @Consumes("application/json")
-    public boolean create(Zaposleni entity) {
-        return DataBaseBroker.kreirajIUbaci(entity);
+    public String createAll(List<Zaposleni> listaZap) {
+        if (DataBaseBroker.sacuvajZaposleneIzListe(listaZap)) {
+            return "uspesno cuvanje liste zaposlenih u bazi";
+        } else {
+            return "cuvanje vise zaposlenih nije uspesno izvrseno";
+        }
     }
 
     @POST
     @Path("edit/{id}")
     @Consumes("application/json")
-    public boolean edit(@PathParam("id") String id, Zaposleni entity) {
-        return DataBaseBroker.azuriraj(entity);
+    public String edit(@PathParam("id") String id, Zaposleni entity) {
+        if (DataBaseBroker.azuriraj(entity)) {
+            return "uspesna operacija izmene zaposlenog sa jmbgom " + id;
+        } else {
+            return "operacija izmene nije uspela";
+        }
     }
 
 }

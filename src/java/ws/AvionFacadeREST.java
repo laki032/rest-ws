@@ -57,28 +57,37 @@ public class AvionFacadeREST {
 
     @GET
     @Path("delete/{id}")
-    public boolean remove(@PathParam("id") int id) {
-        return DataBaseBroker.obrisi(new Avion(id));
+    public String remove(@PathParam("id") int id) {
+        if (DataBaseBroker.obrisi(new Avion(id))) {
+            return "operacija brisanja aviona je uspesno izvrsena";
+        } else {
+            return "operacija brisanja aviona nije uspesno izvrsena";
+        }
     }
 
     @POST
     @Consumes("application/json")
-    public boolean create(Avion entity) {
+    public String create(Avion entity) {
         if (entity.getAvionID() == 0) {
             //promeni id entity-ja na max avionID + 1
             entity.setAvionID(DataBaseBroker.getMaxAvionID() + 1);
-            return DataBaseBroker.kreirajIUbaci(entity);
-        } else {
-            return false;
+            if (DataBaseBroker.kreirajIUbaci(entity)) {
+                return "operacija unosa aviona je uspesno izvrsena";
+            }
         }
+        return "operacija unosa aviona nije uspesno izvrsena";
     }
 
     @POST
     @Path("edit/{id}")
     @Consumes("application/json")
-    public boolean edit(@PathParam("id") int id, Avion entity) {
+    public String edit(@PathParam("id") int id, Avion entity) {
         entity.setAvionID(id);
-        return DataBaseBroker.azuriraj(entity);
+        if (DataBaseBroker.azuriraj(entity)) {
+            return "operacija izmene aviona je uspesno izvrsena";
+        } else {
+            return "operacija izmene aviona nije uspesno izvrsena";
+        }
     }
 
 }

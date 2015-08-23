@@ -34,7 +34,6 @@ public class DataBaseBroker {
     public static boolean kreirajIUbaci(AbstractDomainObject ado) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
-
         session.saveOrUpdate(ado);
         session.getTransaction().commit();
         return true;
@@ -112,6 +111,28 @@ public class DataBaseBroker {
         Integer maxID = (Integer) criteria.uniqueResult();
         sesija.getTransaction().commit();
         return maxID;
+    }
+
+    public static boolean sacuvajZaposleneIzListe(List<Zaposleni> listaZap) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        session.beginTransaction();
+        try {
+            for (Zaposleni z : listaZap) {
+//                if(z.getAviomehanicar()==null){
+//                }
+//                
+//                Zaposleni novi = new Zaposleni(z.getJmbg());
+//                novi.setGodinaRodjenja(z.getGodinaRodjenja());
+//                novi.setImePrezime(z.getImePrezime());
+                
+                session.persist(z);
+            }
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            return false;
+        }
     }
 
 }
