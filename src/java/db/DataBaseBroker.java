@@ -1,6 +1,7 @@
 package db;
 
 import domain.AbstractDomainObject;
+import domain.Admin;
 import domain.Aviomehanicar;
 import domain.Avion;
 import domain.Licenca;
@@ -8,10 +9,13 @@ import domain.Pilot;
 import domain.Tipaviona;
 import domain.Uloga;
 import domain.Zaposleni;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import util.HibernateUtility;
@@ -124,7 +128,7 @@ public class DataBaseBroker {
 //                Zaposleni novi = new Zaposleni(z.getJmbg());
 //                novi.setGodinaRodjenja(z.getGodinaRodjenja());
 //                novi.setImePrezime(z.getImePrezime());
-                
+
                 session.persist(z);
             }
             session.getTransaction().commit();
@@ -132,6 +136,43 @@ public class DataBaseBroker {
         } catch (Exception e) {
             session.getTransaction().rollback();
             return false;
+        }
+    }
+
+    public static Admin ulogujAdmina(Admin a) {
+        try {
+            Session sesija = HibernateUtility.getSessionFactory().openSession();
+            sesija.beginTransaction();
+            Criteria crit = sesija.createCriteria(Admin.class);
+            a.setUlogovan(true);
+            a.setLastLogin(new Date());
+            Criterion un = Restrictions.like("username", a);
+            Criterion pass = Restrictions.like("password", a);
+            LogicalExpression andExp = Restrictions.and(un, pass);
+            crit.add(andExp);
+            Admin rezultat = (Admin) crit.uniqueResult();
+            sesija.getTransaction().commit();
+            return rezultat;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static String izlogujAdmina(Admin a) {
+        try {
+            Session sesija = HibernateUtility.getSessionFactory().openSession();
+            sesija.beginTransaction();
+            Criteria crit = sesija.createCriteria(Admin.class);
+            a.setUlogovan(false);
+            Criterion un = Restrictions.like("username", a);
+            Criterion pass = Restrictions.like("password", a);
+            LogicalExpression andExp = Restrictions.and(un, pass);
+            crit.add(andExp);
+            Admin rezultat = (Admin) crit.uniqueResult();
+            sesija.getTransaction().commit();
+            return "izlogovan";
+        } catch (Exception e) {
+            return "nije uspesno izlogovan";
         }
     }
 

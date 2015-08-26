@@ -10,6 +10,7 @@
         </composite-id>
         
         <property column="nazivUloge" name="nazivUloge"/>
+        <property column="datum" name="datum" type="java.util.Date" />
     
     </class>
 </hibernate-mapping>

@@ -1,6 +1,7 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -12,6 +13,7 @@ public class Uloga extends AbstractDomainObject implements Serializable {
     private String nazivUloge;
     private Pilot pilot;
     private Avion avion;
+    private Date datum;
 
     public Uloga() {
     }
@@ -40,6 +42,14 @@ public class Uloga extends AbstractDomainObject implements Serializable {
         this.avion = avion;
     }
 
+    public Date getDatum() {
+        return datum;
+    }
+
+    public void setDatum(Date datum) {
+        this.datum = datum;
+    }
+    
     @Override
     public String toString() {
         return "uloga[ " + avion.getOznaka() + " ]";

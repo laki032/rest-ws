@@ -23,7 +23,7 @@ public class UlogeLicenceFacadeREST {
     public UlogeLicenceFacadeREST() {
     }
     
-    //dodaj deo za unos, izmenu i brisanje pojedinacnih u/l ali tek kad ovo proradi, da se ne gomila pre toga
+    //dodaj deo za unos pojedinacnih u/l ali tek kad ovo proradi, da se ne gomila pre toga
     
     @GET
     @Path("avion/{id}")

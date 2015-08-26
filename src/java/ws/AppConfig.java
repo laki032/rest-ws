@@ -23,6 +23,7 @@ public class AppConfig extends Application {
         Set<Class<?>> set = new HashSet<>();
         set.add(UlogeLicenceFacadeREST.class);
         set.add(AvionFacadeREST.class);
+        set.add(AdminFacadeREST.class);
         set.add(ZaposleniFacadeREST.class);
         return set;
     }
