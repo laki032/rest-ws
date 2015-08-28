@@ -9,8 +9,10 @@ import domain.Pilot;
 import domain.Tipaviona;
 import domain.Uloga;
 import domain.Zaposleni;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -117,11 +119,11 @@ public class DataBaseBroker {
         return maxID;
     }
 
-    public static boolean sacuvajZaposleneIzListe(List<Zaposleni> listaZap) {
+    public static boolean sacuvajSveZaposlene(Zaposleni[] colZap) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
         try {
-            for (Zaposleni z : listaZap) {
+            for (Zaposleni z : colZap) {
 //                if(z.getAviomehanicar()==null){
 //                }
 //                
