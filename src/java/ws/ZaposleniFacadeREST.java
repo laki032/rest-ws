@@ -6,8 +6,6 @@ import domain.Aviomehanicar;
 import domain.Pilot;
 import domain.Zaposleni;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -81,6 +79,7 @@ public class ZaposleniFacadeREST {
     }
 
     @POST
+    @Path("createAll")
     @Consumes("application/json")
     public String createAll(Zaposleni[] zapArr) {
         if (DataBaseBroker.sacuvajSveZaposlene(zapArr)) {

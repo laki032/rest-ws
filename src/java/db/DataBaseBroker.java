@@ -124,14 +124,12 @@ public class DataBaseBroker {
         session.beginTransaction();
         try {
             for (Zaposleni z : colZap) {
-//                if(z.getAviomehanicar()==null){
-//                }
-//                
-//                Zaposleni novi = new Zaposleni(z.getJmbg());
-//                novi.setGodinaRodjenja(z.getGodinaRodjenja());
-//                novi.setImePrezime(z.getImePrezime());
-
-                session.persist(z);
+                if (z.getPilot() != null) {
+                    session.persist(z.getPilot());
+                }
+                if (z.getAviomehanicar() != null) {
+                    session.persist(z.getAviomehanicar());
+                }
             }
             session.getTransaction().commit();
             return true;
