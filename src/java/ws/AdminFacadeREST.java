@@ -7,6 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import domain.Admin;
+import javax.ws.rs.POST;
 
 /**
  *
@@ -19,7 +20,7 @@ public class AdminFacadeREST  {
     public AdminFacadeREST() {
     }
 
-    @GET
+    @POST
     @Path("login")
     @Consumes("application/json")
     @Produces("application/json")

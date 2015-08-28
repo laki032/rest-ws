@@ -2,12 +2,16 @@ package ws;
 
 import db.DataBaseBroker;
 import domain.AbstractDomainObject;
+import domain.Aviomehanicar;
 import domain.Licenca;
+import domain.Tipaviona;
 import domain.Uloga;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -22,9 +26,8 @@ public class UlogeLicenceFacadeREST {
 
     public UlogeLicenceFacadeREST() {
     }
-    
+
     //dodaj deo za unos pojedinacnih u/l ali tek kad ovo proradi, da se ne gomila pre toga
-    
     @GET
     @Path("avion/{id}")
     @Produces("application/json")
@@ -71,5 +74,27 @@ public class UlogeLicenceFacadeREST {
             ll.add((Licenca) ado);
         }
         return ll;
+    }
+
+    @POST
+    @Path("licenca")
+    @Consumes("application/json")
+    public String novaLicenca(Licenca l) {
+        if (DataBaseBroker.kreirajIUbaci(l)) {
+            return "uspesno uneta";
+        } else {
+            return "nije uneta";
+        }
+    }
+
+    @POST
+    @Path("uloga")
+    @Consumes("application/json")
+    public String novaUloga(Uloga u) {
+        if (DataBaseBroker.kreirajIUbaci(u)) {
+            return "uspesno uneta";
+        } else {
+            return "nije uneta";
+        }
     }
 }

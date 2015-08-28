@@ -17,24 +17,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Lazar Vujadinovic
  */
-@Entity
-@Table(name = "admin")
-@XmlRootElement
 public class Admin implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "username")
+
     private String username;
-    @Size(max = 100)
-    @Column(name = "password")
     private String password;
-    @Column(name = "lastLogin")
-    @Temporal(TemporalType.DATE)
+
     private Date lastLogin;
-    @Column(name = "ulogovan")
     private boolean ulogovan;
 
     public Admin() {

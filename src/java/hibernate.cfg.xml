@@ -16,6 +16,7 @@
     
     <mapping resource="domain/TipAviona.hbm.xml"/>
     <mapping resource="domain/Avion.hbm.xml"/>
+    <mapping resource="domain/Admin.hbm.xml"/>
     <mapping resource="domain/Zaposleni.hbm.xml"/>
     <mapping resource="domain/Uloga.hbm.xml"/>
     <mapping resource="domain/Licenca.hbm.xml"/>

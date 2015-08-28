@@ -146,10 +146,10 @@ public class DataBaseBroker {
             Criteria crit = sesija.createCriteria(Admin.class);
             a.setUlogovan(true);
             a.setLastLogin(new Date());
-            Criterion un = Restrictions.like("username", a);
-            Criterion pass = Restrictions.like("password", a);
-            LogicalExpression andExp = Restrictions.and(un, pass);
-            crit.add(andExp);
+            Criterion un = Restrictions.like("username", a.getUsername().trim());
+//            Criterion pass = Restrictions.like("password", a.getPassword());
+//            LogicalExpression andExp = Restrictions.and(un, pass);
+            crit.add(un);
             Admin rezultat = (Admin) crit.uniqueResult();
             sesija.getTransaction().commit();
             return rezultat;
