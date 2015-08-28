@@ -7,5 +7,7 @@
             <generator class="assigned"/>
         </id>
         <property column="password" name="password"/>
+        <property column="ulogovan" name="ulogovan" type="boolean"/>
+        <property column="lastLogin" name="lastLogin" type="java.util.Date"/>
     </class>
 </hibernate-mapping>

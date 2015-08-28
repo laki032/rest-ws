@@ -28,7 +28,7 @@ public class AdminFacadeREST  {
         return DataBaseBroker.ulogujAdmina(a);
     }
     
-    @GET
+    @POST
     @Path("logout")
     @Consumes("application/json")
     public String logout(Admin a) {

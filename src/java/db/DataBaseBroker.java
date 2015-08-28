@@ -144,14 +144,22 @@ public class DataBaseBroker {
             Session sesija = HibernateUtility.getSessionFactory().openSession();
             sesija.beginTransaction();
             Criteria crit = sesija.createCriteria(Admin.class);
-            a.setUlogovan(true);
-            a.setLastLogin(new Date());
             Criterion un = Restrictions.like("username", a.getUsername().trim());
-//            Criterion pass = Restrictions.like("password", a.getPassword());
-//            LogicalExpression andExp = Restrictions.and(un, pass);
+            Criterion pass = Restrictions.like("password", a.getPassword());
+            LogicalExpression andExp = Restrictions.and(un, pass);
             crit.add(un);
             Admin rezultat = (Admin) crit.uniqueResult();
             sesija.getTransaction().commit();
+
+            if (rezultat != null) {
+                Session sesija2 = HibernateUtility.getSessionFactory().openSession();
+                sesija2.beginTransaction();
+                a.setUlogovan(true);
+                a.setLastLogin(new Date());
+                sesija2.update(a);
+                rezultat.setUlogovan(true);
+                sesija2.getTransaction().commit();
+            }
             return rezultat;
         } catch (Exception e) {
             return null;
@@ -163,13 +171,20 @@ public class DataBaseBroker {
             Session sesija = HibernateUtility.getSessionFactory().openSession();
             sesija.beginTransaction();
             Criteria crit = sesija.createCriteria(Admin.class);
-            a.setUlogovan(false);
             Criterion un = Restrictions.like("username", a);
-            Criterion pass = Restrictions.like("password", a);
-            LogicalExpression andExp = Restrictions.and(un, pass);
-            crit.add(andExp);
+//            Criterion pass = Restrictions.like("password", a);
+//            LogicalExpression andExp = Restrictions.and(un, pass);
+            crit.add(un);
             Admin rezultat = (Admin) crit.uniqueResult();
             sesija.getTransaction().commit();
+
+            if (rezultat != null) {
+                Session sesija2 = HibernateUtility.getSessionFactory().openSession();
+                sesija2.beginTransaction();
+                a.setUlogovan(false);
+                sesija2.update(a);
+                sesija2.getTransaction().commit();
+            }
             return "izlogovan";
         } catch (Exception e) {
             return "nije uspesno izlogovan";
