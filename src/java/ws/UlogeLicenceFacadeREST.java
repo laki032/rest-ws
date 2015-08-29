@@ -27,7 +27,6 @@ public class UlogeLicenceFacadeREST {
     public UlogeLicenceFacadeREST() {
     }
 
-    //dodaj deo za unos pojedinacnih u/l ali tek kad ovo proradi, da se ne gomila pre toga
     @GET
     @Path("avion/{id}")
     @Produces("application/json")

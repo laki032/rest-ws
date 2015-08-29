@@ -1,18 +1,8 @@
 package db;
 
-import domain.AbstractDomainObject;
-import domain.Admin;
-import domain.Aviomehanicar;
-import domain.Avion;
-import domain.Licenca;
-import domain.Pilot;
-import domain.Tipaviona;
-import domain.Uloga;
-import domain.Zaposleni;
-import java.util.Collection;
+import domain.*;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -147,7 +137,7 @@ public class DataBaseBroker {
             Criterion un = Restrictions.like("username", a.getUsername().trim());
             Criterion pass = Restrictions.like("password", a.getPassword());
             LogicalExpression andExp = Restrictions.and(un, pass);
-            crit.add(un);
+            crit.add(andExp);
             Admin rezultat = (Admin) crit.uniqueResult();
             sesija.getTransaction().commit();
 
@@ -172,9 +162,9 @@ public class DataBaseBroker {
             sesija.beginTransaction();
             Criteria crit = sesija.createCriteria(Admin.class);
             Criterion un = Restrictions.like("username", a);
-//            Criterion pass = Restrictions.like("password", a);
-//            LogicalExpression andExp = Restrictions.and(un, pass);
-            crit.add(un);
+            Criterion pass = Restrictions.like("password", a);
+            LogicalExpression andExp = Restrictions.and(un, pass);
+            crit.add(andExp);
             Admin rezultat = (Admin) crit.uniqueResult();
             sesija.getTransaction().commit();
 
