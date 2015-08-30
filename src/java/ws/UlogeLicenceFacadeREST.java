@@ -2,9 +2,7 @@ package ws;
 
 import db.DataBaseBroker;
 import domain.AbstractDomainObject;
-import domain.Aviomehanicar;
 import domain.Licenca;
-import domain.Tipaviona;
 import domain.Uloga;
 import java.util.ArrayList;
 import java.util.List;

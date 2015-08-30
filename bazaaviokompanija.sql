@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 28, 2015 at 10:42 AM
+-- Generation Time: Aug 29, 2015 at 11:29 AM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.16
 
@@ -30,7 +30,7 @@ USE `bazaaviokompanija`;
 
 CREATE TABLE IF NOT EXISTS `admin` (
   `username` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `password` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `lastLogin` date DEFAULT NULL,
   `ulogovan` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`username`)
@@ -41,8 +41,8 @@ CREATE TABLE IF NOT EXISTS `admin` (
 --
 
 INSERT INTO `admin` (`username`, `password`, `lastLogin`, `ulogovan`) VALUES
-('admin', 'admin', NULL, NULL),
-('Lazar', '1234', NULL, NULL);
+('admin', 'admin', '2015-08-29', 1),
+('Lazar', '1234', '2015-08-29', 1);
 
 -- --------------------------------------------------------
 
@@ -96,15 +96,15 @@ CREATE TABLE IF NOT EXISTS `avion` (
 --
 
 INSERT INTO `avion` (`avionID`, `oznaka`, `godProizvodnje`, `brojPutnika`, `nosivost`, `tipID`) VALUES
-(1, 'Airbus A320', 1990, 11, 11, 1),
-(2, 'Antonov An-124', 1992, 12, 12, 2),
-(3, 'RC-135', 1993, 33, 3333, 3),
-(4, 'F-22 Raptor', 1944, 141, 411, 4),
-(5, 'BAE F-35 Lightning III', 1995, 151, 11, 5),
-(6, 'Boeing 737', 1996, 6, 66, 1),
-(7, 'L-1011 TriStar', 1997, 7, 11, 1),
-(8, 'RC-1350', 1988, 88, 8, 3),
-(9, 'Sukhoi GC20', 1999, 19, 11, 5);
+(1, 'Boeing C-17A Globemaster III', 2000, 10, 50, 2),
+(2, 'Boeing 747 Dreamlifter', 2003, 6, 60, 2),
+(3, 'Cessna 172s', 1995, 10, 1, 4),
+(4, 'Cessna 22p', 1990, 4, 1, 4),
+(5, 'BAE F-35 Lightning III', 1995, 3, 11, 5),
+(6, 'Boeing 737', 1996, 200, 16, 1),
+(7, 'L-1011 TriStar', 1997, 55, 11, 1),
+(8, 'RC-1350', 1988, 1, 2, 3),
+(9, 'Sukhoi GC20', 1999, 2, 2, 5);
 
 -- --------------------------------------------------------
 
@@ -156,14 +156,14 @@ INSERT INTO `licenca` (`JMBG`, `tipID`, `datumDobijanja`) VALUES
 ('2234555121234', 4, '2015-06-06'),
 ('2234555121234', 5, '2015-06-02'),
 ('2234555121254', 2, '2015-06-01'),
-('2234555121254', 3, '2015-05-23'),
-('2234555121254', 4, '2015-03-22'),
-('2234555121255', 3, '2015-03-05'),
-('2234555121255', 4, '2015-03-15'),
-('2234555121255', 5, '2015-03-14'),
-('2234555121261', 1, '2015-05-13'),
-('2234555121261', 2, '2015-05-23'),
-('2234555121261', 3, '2015-05-12');
+('2234555121254', 3, NULL),
+('2234555121254', 4, NULL),
+('2234555121255', 3, NULL),
+('2234555121255', 4, NULL),
+('2234555121255', 5, NULL),
+('2234555121261', 1, NULL),
+('2234555121261', 2, NULL),
+('2234555121261', 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -228,8 +228,8 @@ CREATE TABLE IF NOT EXISTS `uloga` (
   `JMBG` varchar(13) COLLATE utf8_unicode_ci NOT NULL,
   `avionID` bigint(11) NOT NULL,
   `nazivUloge` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `datum` date DEFAULT NULL,
-  PRIMARY KEY (`JMBG`,`avionID`),
+  `datum` date NOT NULL DEFAULT '0000-00-00',
+  PRIMARY KEY (`JMBG`,`avionID`,`datum`),
   KEY `JMBG` (`JMBG`),
   KEY `avionID` (`avionID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -239,39 +239,51 @@ CREATE TABLE IF NOT EXISTS `uloga` (
 --
 
 INSERT INTO `uloga` (`JMBG`, `avionID`, `nazivUloge`, `datum`) VALUES
-('2200000782867', 2, 'Instruktor', '2015-06-09'),
-('2200000782867', 3, 'Instruktor', '2015-06-01'),
-('2200000782867', 4, 'Glavni pilot', '2015-06-12'),
 ('2200000782867', 5, 'Ko pilot', '2015-06-13'),
-('2211000782867', 1, 'Kapetan', '2015-06-06'),
-('2211000782867', 3, 'Kapetan', '2015-06-26'),
-('2211000782867', 4, 'Kapetan', '2015-06-13'),
+('2211000782867', 1, 'Kapetan', '2015-08-12'),
+('2211000782867', 2, 'Kapetan', '2015-08-12'),
+('2211000782867', 2, 'Kopilot', '2015-11-12'),
+('2211000782867', 3, 'Kopilot', '2015-10-11'),
+('2211000782867', 4, 'Kapetan', '2015-04-12'),
+('2211000782867', 4, 'Kapetan', '2015-08-11'),
 ('2211000782867', 5, 'Instruktor', '2015-06-05'),
-('2234555121262', 1, 'Instruktor', '2015-06-06'),
-('2234555121262', 2, 'Ko pilot', '2015-06-14'),
-('2234555121262', 3, 'Instruktor', '2015-06-13'),
-('2234555121263', 2, 'Ko pilot', '2015-06-23'),
-('2234555121263', 3, 'Ucenik', '2015-06-14'),
-('2234555121263', 4, 'Kapetan', '2015-06-04'),
-('2234555121264', 2, 'Ko pilot', '2015-06-30'),
-('2234555121264', 4, 'Kapetan', '2015-06-10'),
-('2234555121264', 5, 'Kapetan', '2015-06-05'),
-('2234555121265', 1, 'Kapetan', '2015-06-02'),
-('2234555121265', 4, 'Kapetan', '2015-06-28'),
+('2234555121262', 1, 'Kopilot', '2015-08-08'),
+('2234555121262', 2, 'Kopilot', '2015-05-12'),
+('2234555121262', 3, 'Kopilot', '2015-01-08'),
+('2234555121262', 3, 'Kapetan', '2015-06-12'),
+('2234555121262', 3, 'Kopilot', '2015-11-12'),
+('2234555121262', 4, 'Kopilot', '2015-02-08'),
+('2234555121262', 4, 'Kopilot', '2015-03-08'),
+('2234555121262', 4, 'Kapetan', '2015-08-08'),
+('2234555121262', 4, 'Kopilot', '2015-09-08'),
+('2234555121262', 4, 'Kopilot', '2015-12-08'),
+('2234555121262', 6, 'Kapetan', '2015-10-08'),
+('2234555121262', 7, 'Kapetan', '2015-02-08'),
+('2234555121263', 3, 'Kapetan', '2015-05-12'),
+('2234555121263', 3, 'Kopilot', '2015-06-12'),
+('2234555121263', 3, 'Kapetan', '2015-07-12'),
+('2234555121263', 6, 'Kopilot', '2015-11-08'),
+('2234555121263', 7, 'Kopilot', '2015-03-08'),
+('2234555121263', 7, 'Kapetan', '2015-04-08'),
+('2234555121264', 5, 'Kapetan', '2015-06-08'),
+('2234555121264', 6, 'Kopilot', '2015-09-08'),
+('2234555121264', 6, 'Kapetan', '2015-12-07'),
+('2234555121264', 6, 'Kopilot', '2015-12-08'),
+('2234555121264', 8, 'Kapetan', '2015-01-12'),
+('2234555121264', 8, 'Kopilot', '2015-12-12'),
 ('2234555121265', 5, 'Instruktor', '2015-06-29'),
-('2234555121266', 1, 'Kapetan', '2015-06-19'),
-('2234555121266', 2, 'Kapetan', '2015-06-09'),
+('2234555121265', 8, 'Kopilot', '2015-01-12'),
+('2234555121265', 8, 'Kapetan', '2015-03-12'),
+('2234555121265', 9, 'Kapetan', '2015-07-08'),
+('2234555121265', 9, 'Kopilot', '2015-11-12'),
+('2234555121265', 9, 'Kopilot', '2015-12-12'),
 ('2234555121266', 5, 'Kapetan', '2015-06-17'),
-('2234555121267', 2, 'Kapetan', '2015-06-17'),
-('2234555121267', 3, 'Kapetan', '2015-06-29'),
-('2234555121267', 4, 'Kapetan', '2015-06-21'),
-('2234555121268', 1, 'Instruktor', '2015-06-27'),
+('2234555121266', 7, 'Kopilot', '2015-04-08'),
+('2234555121266', 7, 'Kapetan', '2015-05-08'),
+('2234555121266', 8, 'Kopilot', '2015-02-12'),
+('2234555121266', 9, 'Kapetan', '2015-06-08'),
 ('2234555121268', 5, 'Ucenik', '2015-06-15'),
-('2234555121269', 1, 'Ucenik', '2015-06-06'),
-('2234555121269', 2, 'Ucenik', '2015-06-04'),
-('2234555121269', 3, 'Instruktor', '2015-05-13'),
-('2234555121269', 4, 'Instruktor', '2015-05-21'),
-('2234555121269', 5, 'Ucenik', '2015-05-22');
+('2234555121269', 5, 'Ucenik', '2015-10-09');
 
 -- --------------------------------------------------------
 
@@ -291,8 +303,8 @@ CREATE TABLE IF NOT EXISTS `zaposleni` (
 --
 
 INSERT INTO `zaposleni` (`JMBG`, `imePrezime`, `godinaRodjenja`) VALUES
-('0708010123455', 'Stevan Stojanovic', 2010),
-('1809010123412', 'Dusko Radinovic', 2010),
+('0708010123455', 'Stevan Stojanovic', 2000),
+('1809010123412', 'Dusko Radinovic', 2000),
 ('2200000782867', 'Slobodan Marovic', 1992),
 ('2211000782867', 'Vladimir Jugovic', 1982),
 ('2211992782867', 'Refik Sabanadzovic', 1992),
@@ -333,7 +345,6 @@ ALTER TABLE `avion`
 -- Constraints for table `licenca`
 --
 ALTER TABLE `licenca`
-  ADD CONSTRAINT `Licenca_ibfk_2` FOREIGN KEY (`tipID`) REFERENCES `tipaviona` (`tipID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `licenca_ibfk_1` FOREIGN KEY (`JMBG`) REFERENCES `aviomehanicar` (`JMBG`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `licenca_ibfk_2` FOREIGN KEY (`tipID`) REFERENCES `tipaviona` (`tipID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -347,7 +358,6 @@ ALTER TABLE `pilot`
 -- Constraints for table `uloga`
 --
 ALTER TABLE `uloga`
-  ADD CONSTRAINT `Uloga_ibfk_2` FOREIGN KEY (`avionID`) REFERENCES `avion` (`avionID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `uloga_ibfk_1` FOREIGN KEY (`JMBG`) REFERENCES `pilot` (`JMBG`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `uloga_ibfk_2` FOREIGN KEY (`avionID`) REFERENCES `avion` (`avionID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
