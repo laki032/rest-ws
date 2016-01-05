@@ -29,7 +29,7 @@ public class AvionFacadeREST {
     @Produces("application/json")
     public List<Avion> findAll() {
         List<Avion> la = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.vratiSve(new Avion());
+        List<AbstractDomainObject> lado = DataBaseBroker.getAll(new Avion());
         for (AbstractDomainObject ado : lado) {
             la.add((Avion) ado);
         }
@@ -41,7 +41,7 @@ public class AvionFacadeREST {
     @Produces("application/json")
     public List<Tipaviona> findAllTypes() {
         List<Tipaviona> lt = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.vratiSve(new Tipaviona());
+        List<AbstractDomainObject> lado = DataBaseBroker.getAll(new Tipaviona());
         for (AbstractDomainObject ado : lado) {
             lt.add((Tipaviona) ado);
         }
@@ -52,13 +52,13 @@ public class AvionFacadeREST {
     @Path("{id}")
     @Produces("application/json")
     public Avion find(@PathParam("id") int id) {
-        return (Avion) DataBaseBroker.vratiPoKriterijumu(id + "");
+        return (Avion) DataBaseBroker.getByCriteria(id + "");
     }
 
     @GET
     @Path("delete/{id}")
     public String remove(@PathParam("id") int id) {
-        if (DataBaseBroker.obrisi(new Avion(id))) {
+        if (DataBaseBroker.remove(new Avion(id))) {
             return "operacija brisanja aviona je uspesno izvrsena";
         } else {
             return "operacija brisanja aviona nije uspesno izvrsena";
@@ -71,7 +71,7 @@ public class AvionFacadeREST {
         if (entity.getAvionID() == 0) {
             //promeni id entity-ja na max avionID + 1
             entity.setAvionID(DataBaseBroker.getMaxAvionID() + 1);
-            if (DataBaseBroker.kreirajIUbaci(entity)) {
+            if (DataBaseBroker.create(entity)) {
                 return "operacija unosa aviona je uspesno izvrsena";
             }
         }
@@ -83,7 +83,7 @@ public class AvionFacadeREST {
     @Consumes("application/json")
     public String edit(@PathParam("id") int id, Avion entity) {
         entity.setAvionID(id);
-        if (DataBaseBroker.azuriraj(entity)) {
+        if (DataBaseBroker.update(entity)) {
             return "operacija izmene aviona je uspesno izvrsena";
         } else {
             return "operacija izmene aviona nije uspesno izvrsena";

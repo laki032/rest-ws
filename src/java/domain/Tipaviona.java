@@ -61,7 +61,7 @@ public class Tipaviona extends AbstractDomainObject implements Serializable {
     }
 
     @Override
-    public String imeTabele() {
+    public String tableName() {
         return "Tipaviona";
     }
 

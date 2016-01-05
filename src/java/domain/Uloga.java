@@ -56,7 +56,7 @@ public class Uloga extends AbstractDomainObject implements Serializable {
     }
 
     @Override
-    public String imeTabele() {
+    public String tableName() {
         return "Uloga";
     }
 

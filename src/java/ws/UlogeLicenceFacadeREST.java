@@ -30,7 +30,7 @@ public class UlogeLicenceFacadeREST {
     @Produces("application/json")
     public List<Uloga> vratiUlogeZaAvion(@PathParam("id") int id) {
         List<Uloga> lu = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.vratiU_L(id + "", 0);
+        List<AbstractDomainObject> lado = DataBaseBroker.getU_L(id + "", 0);
         for (AbstractDomainObject ado : lado) {
             lu.add((Uloga) ado);
         }
@@ -42,7 +42,7 @@ public class UlogeLicenceFacadeREST {
     @Produces("application/json")
     public List<Uloga> vratiUlogeZaPilota(@PathParam("id") String id) {
         List<Uloga> lu = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.vratiU_L(id, 1);
+        List<AbstractDomainObject> lado = DataBaseBroker.getU_L(id, 1);
         for (AbstractDomainObject ado : lado) {
             lu.add((Uloga) ado);
         }
@@ -54,7 +54,7 @@ public class UlogeLicenceFacadeREST {
     @Produces("application/json")
     public List<Licenca> vratiLicenceZaTip(@PathParam("id") int id) {
         List<Licenca> ll = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.vratiU_L(id + "", 2);
+        List<AbstractDomainObject> lado = DataBaseBroker.getU_L(id + "", 2);
         for (AbstractDomainObject ado : lado) {
             ll.add((Licenca) ado);
         }
@@ -66,7 +66,7 @@ public class UlogeLicenceFacadeREST {
     @Produces("application/json")
     public List<Licenca> vratiLicenceZaMehanicara(@PathParam("id") String id) {
         List<Licenca> ll = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.vratiU_L(id, 3);
+        List<AbstractDomainObject> lado = DataBaseBroker.getU_L(id, 3);
         for (AbstractDomainObject ado : lado) {
             ll.add((Licenca) ado);
         }
@@ -77,7 +77,7 @@ public class UlogeLicenceFacadeREST {
     @Path("licenca")
     @Consumes("application/json")
     public String novaLicenca(Licenca l) {
-        if (DataBaseBroker.kreirajIUbaci(l)) {
+        if (DataBaseBroker.create(l)) {
             return "uspesno uneta";
         } else {
             return "nije uneta";
@@ -88,7 +88,7 @@ public class UlogeLicenceFacadeREST {
     @Path("uloga")
     @Consumes("application/json")
     public String novaUloga(Uloga u) {
-        if (DataBaseBroker.kreirajIUbaci(u)) {
+        if (DataBaseBroker.create(u)) {
             return "uspesno uneta";
         } else {
             return "nije uneta";

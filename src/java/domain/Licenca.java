@@ -59,7 +59,7 @@ public class Licenca extends AbstractDomainObject implements Serializable {
     }
 
     @Override
-    public String imeTabele() {
+    public String tableName() {
         return "Licenca";
     }
 

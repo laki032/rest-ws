@@ -3,7 +3,6 @@ package ws;
 import db.DataBaseBroker;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import domain.Admin;
@@ -25,14 +24,14 @@ public class AdminFacadeREST  {
     @Consumes("application/json")
     @Produces("application/json")
     public Admin login(Admin a) {
-        return DataBaseBroker.ulogujAdmina(a);
+        return DataBaseBroker.adminLogin(a);
     }
     
     @POST
     @Path("logout")
     @Consumes("application/json")
     public String logout(Admin a) {
-        return DataBaseBroker.izlogujAdmina(a);
+        return DataBaseBroker.adminLogout(a);
     }
 
 }

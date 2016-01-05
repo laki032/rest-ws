@@ -60,7 +60,7 @@ public class Aviomehanicar extends Zaposleni implements Serializable {
     }
 
     @Override
-    public String imeTabele() {
+    public String tableName() {
         return "Aviomehanicar";
     }
 

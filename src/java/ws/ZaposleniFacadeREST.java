@@ -30,7 +30,7 @@ public class ZaposleniFacadeREST {
     @Produces("application/json")
     public List<Zaposleni> findAll() {
         List<Zaposleni> lz = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.vratiSve(new Zaposleni());
+        List<AbstractDomainObject> lado = DataBaseBroker.getAll(new Zaposleni());
         for (AbstractDomainObject ado : lado) {
             lz.add((Zaposleni) ado);
         }
@@ -41,7 +41,7 @@ public class ZaposleniFacadeREST {
     @Path("{id}")
     @Produces("application/json")
     public Zaposleni find(@PathParam("id") String id) {
-        return (Zaposleni) DataBaseBroker.vratiPoKriterijumu(id);
+        return (Zaposleni) DataBaseBroker.getByCriteria(id);
     }
 
     @GET
@@ -49,7 +49,7 @@ public class ZaposleniFacadeREST {
     @Produces("application/json")
     public List<Pilot> findAllPilot() {
         List<Pilot> lz = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.vratiSve(new Pilot());
+        List<AbstractDomainObject> lado = DataBaseBroker.getAll(new Pilot());
         for (AbstractDomainObject ado : lado) {
             lz.add((Pilot) ado);
         }
@@ -61,7 +61,7 @@ public class ZaposleniFacadeREST {
     @Produces("application/json")
     public List<Aviomehanicar> findAllAvioMehanicar() {
         List<Aviomehanicar> lz = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.vratiSve(new Aviomehanicar());
+        List<AbstractDomainObject> lado = DataBaseBroker.getAll(new Aviomehanicar());
         for (AbstractDomainObject ado : lado) {
             lz.add((Aviomehanicar) ado);
         }
@@ -71,7 +71,7 @@ public class ZaposleniFacadeREST {
     @GET
     @Path("delete/{id}")
     public String remove(@PathParam("id") String id) {
-        if (DataBaseBroker.obrisi(new Zaposleni(id))) {
+        if (DataBaseBroker.remove(new Zaposleni(id))) {
             return "uspesno brisanje zaposlenog " + id;
         } else {
             return "brisanje nije uspelo";
@@ -82,7 +82,7 @@ public class ZaposleniFacadeREST {
     @Path("createAll")
     @Consumes("application/json")
     public String createAll(Zaposleni[] zapArr) {
-        if (DataBaseBroker.sacuvajSveZaposlene(zapArr)) {
+        if (DataBaseBroker.saveAll(zapArr)) {
             return "uspesno cuvanje kolekcije zaposlenih u bazi";
         } else {
             return "cuvanje vise zaposlenih nije uspesno izvrseno";
@@ -93,7 +93,7 @@ public class ZaposleniFacadeREST {
     @Path("edit/{id}")
     @Consumes("application/json")
     public String edit(@PathParam("id") String id, Zaposleni entity) {
-        if (DataBaseBroker.azuriraj(entity)) {
+        if (DataBaseBroker.update(entity)) {
             return "uspesna operacija izmene zaposlenog sa jmbgom " + id;
         } else {
             return "operacija izmene nije uspela";

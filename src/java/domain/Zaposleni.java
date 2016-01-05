@@ -67,7 +67,7 @@ public class Zaposleni extends AbstractDomainObject  implements Serializable {
     }
 
     @Override
-    public String imeTabele() {
+    public String tableName() {
         return "Zaposleni";
     }
     

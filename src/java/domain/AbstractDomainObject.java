@@ -8,6 +8,6 @@ import java.io.Serializable;
  */
 public abstract class AbstractDomainObject implements Serializable {
     
-    public abstract String imeTabele();
+    public abstract String tableName();
     
 }

@@ -69,7 +69,7 @@ public class Pilot extends Zaposleni implements Serializable {
     }
     
     @Override
-    public String imeTabele() {
+    public String tableName() {
         return "Pilot";
     }
 }

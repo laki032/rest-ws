@@ -3,6 +3,7 @@ package db;
 import domain.*;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -18,16 +19,20 @@ import util.HibernateUtility;
  */
 public class DataBaseBroker {
 
-    public static List<AbstractDomainObject> vratiSve(AbstractDomainObject ado) {
+    private final static Logger log = Logger.getLogger(DataBaseBroker.class.getName());
+        
+    public static List<AbstractDomainObject> getAll(AbstractDomainObject ado) {
+        log.info("getAll " + ado.tableName());
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from " + ado.imeTabele());
+        Query query = session.createQuery("from " + ado.tableName());
         List<AbstractDomainObject> lista = query.list();
         session.getTransaction().commit();
         return lista;
     }
 
-    public static boolean kreirajIUbaci(AbstractDomainObject ado) {
+    public static boolean create(AbstractDomainObject ado) {
+        log.info("create " + ado);
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
         session.saveOrUpdate(ado);
@@ -35,7 +40,8 @@ public class DataBaseBroker {
         return true;
     }
 
-    public static boolean azuriraj(AbstractDomainObject ado) {
+    public static boolean update(AbstractDomainObject ado) {
+        log.info("update " + ado);
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
         session.update(ado);
@@ -43,7 +49,8 @@ public class DataBaseBroker {
         return true;
     }
 
-    public static boolean obrisi(AbstractDomainObject ado) {
+    public static boolean remove(AbstractDomainObject ado) {
+        log.info("remove " + ado);
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
         session.delete(ado);
@@ -51,52 +58,55 @@ public class DataBaseBroker {
         return true;
     }
 
-    public static AbstractDomainObject vratiPoKriterijumu(String id) {
+    public static AbstractDomainObject getByCriteria(String id) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
         AbstractDomainObject rezultat;
         try {
             rezultat = (Zaposleni) session.get(Zaposleni.class, id);
+            log.info("getByCriteria Zaposleni " + id);
             if (rezultat == null) {
                 throw new Exception("nije zaposleni, nego avion");
             }
         } catch (Exception e) {
             rezultat = (Avion) session.get(Avion.class, Integer.parseInt(id));
+            log.info("getByCriteria Avion " + id);
         }
 
         session.getTransaction().commit();
         return rezultat;
     }
 
-    public static List<AbstractDomainObject> vratiU_L(String id, int sk) {
-        Session sesija = HibernateUtility.getSessionFactory().openSession();
-        sesija.beginTransaction();
+    public static List<AbstractDomainObject> getU_L(String id, int sk) {
+        log.info("getU_L " + id + ", sk: " + sk);
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        session.beginTransaction();
         Criteria crit = null;
         List<AbstractDomainObject> lista;
         switch (sk) {
             case 0: //vratiUlogeZaAvion
-                crit = sesija.createCriteria(Uloga.class);
+                crit = session.createCriteria(Uloga.class);
                 crit.setMaxResults(15);
                 crit.add(Restrictions.like("avion", new Avion(Integer.parseInt(id))));
                 break;
             case 1: //vratiUlogeZaPilota
-                crit = sesija.createCriteria(Uloga.class);
+                crit = session.createCriteria(Uloga.class);
                 crit.setMaxResults(15);
                 crit.add(Restrictions.like("pilot", new Pilot(id)));
                 break;
             case 2: //vratiLicenceZaTip
-                crit = sesija.createCriteria(Licenca.class);
+                crit = session.createCriteria(Licenca.class);
                 crit.setMaxResults(15);
                 crit.add(Restrictions.like("tipaviona", new Tipaviona(Integer.parseInt(id))));
                 break;
             case 3: //vratiLicenceZaMehanicara
-                crit = sesija.createCriteria(Licenca.class);
+                crit = session.createCriteria(Licenca.class);
                 crit.setMaxResults(15);
                 crit.add(Restrictions.like("aviomehanicar", new Aviomehanicar(id)));
                 break;
         }
         lista = crit.list();
-        sesija.getTransaction().commit();
+        session.getTransaction().commit();
         return lista;
     }
 
@@ -109,7 +119,8 @@ public class DataBaseBroker {
         return maxID;
     }
 
-    public static boolean sacuvajSveZaposlene(Zaposleni[] colZap) {
+    public static boolean saveAll(Zaposleni[] colZap) {
+        log.info("saveAll " + colZap);
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
         try {
@@ -129,26 +140,27 @@ public class DataBaseBroker {
         }
     }
 
-    public static Admin ulogujAdmina(Admin a) {
+    public static Admin adminLogin(Admin a) {
+        log.info("adminLogin " + a);
         try {
-            Session sesija = HibernateUtility.getSessionFactory().openSession();
-            sesija.beginTransaction();
-            Criteria crit = sesija.createCriteria(Admin.class);
+            Session sessionFind = HibernateUtility.getSessionFactory().openSession();
+            sessionFind.beginTransaction();
+            Criteria crit = sessionFind.createCriteria(Admin.class);
             Criterion un = Restrictions.like("username", a.getUsername().trim());
             Criterion pass = Restrictions.like("password", a.getPassword());
             LogicalExpression andExp = Restrictions.and(un, pass);
             crit.add(andExp);
             Admin rezultat = (Admin) crit.uniqueResult();
-            sesija.getTransaction().commit();
+            sessionFind.getTransaction().commit();
 
             if (rezultat != null) {
-                Session sesija2 = HibernateUtility.getSessionFactory().openSession();
-                sesija2.beginTransaction();
+                Session sessionLogin = HibernateUtility.getSessionFactory().openSession();
+                sessionLogin.beginTransaction();
                 a.setUlogovan(true);
                 a.setLastLogin(new Date());
-                sesija2.update(a);
+                sessionLogin.update(a);
                 rezultat.setUlogovan(true);
-                sesija2.getTransaction().commit();
+                sessionLogin.getTransaction().commit();
             }
             return rezultat;
         } catch (Exception e) {
@@ -156,24 +168,25 @@ public class DataBaseBroker {
         }
     }
 
-    public static String izlogujAdmina(Admin a) {
+    public static String adminLogout(Admin a) {
+        log.info("adminLogout " + a);
         try {
-            Session sesija = HibernateUtility.getSessionFactory().openSession();
-            sesija.beginTransaction();
-            Criteria crit = sesija.createCriteria(Admin.class);
+            Session sessionFind = HibernateUtility.getSessionFactory().openSession();
+            sessionFind.beginTransaction();
+            Criteria crit = sessionFind.createCriteria(Admin.class);
             Criterion un = Restrictions.like("username", a);
             Criterion pass = Restrictions.like("password", a);
             LogicalExpression andExp = Restrictions.and(un, pass);
             crit.add(andExp);
             Admin rezultat = (Admin) crit.uniqueResult();
-            sesija.getTransaction().commit();
+            sessionFind.getTransaction().commit();
 
             if (rezultat != null) {
-                Session sesija2 = HibernateUtility.getSessionFactory().openSession();
-                sesija2.beginTransaction();
+                Session sessionLogout = HibernateUtility.getSessionFactory().openSession();
+                sessionLogout.beginTransaction();
                 a.setUlogovan(false);
-                sesija2.update(a);
-                sesija2.getTransaction().commit();
+                sessionLogout.update(a);
+                sessionLogout.getTransaction().commit();
             }
             return "izlogovan";
         } catch (Exception e) {

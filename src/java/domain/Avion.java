@@ -87,7 +87,7 @@ public class Avion extends AbstractDomainObject implements Serializable {
     }
 
     @Override
-    public String imeTabele() {
+    public String tableName() {
         return "Avion";
     }
 
