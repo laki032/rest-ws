@@ -8,7 +8,6 @@ public class HibernateUtility {
     
     static {
         try{
-            // Kreira SessionFactory na osnovu hibernate.cfg.xml
             sessionFactory=new Configuration().configure().buildSessionFactory();
         }catch(Throwable ex){
             System.err.println("Inicijalno kreiranje SessionFactory nije uspelo! " + ex);
