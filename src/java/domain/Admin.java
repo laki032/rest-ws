@@ -11,6 +11,7 @@ public class Admin implements Serializable {
 
     private String username;
     private String password;
+    private String theme;
 
     private Date lastLogin;
     private boolean ulogovan;
@@ -36,6 +37,14 @@ public class Admin implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 
     public Date getLastLogin() {
