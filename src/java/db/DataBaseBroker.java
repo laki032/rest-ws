@@ -159,6 +159,7 @@ public class DataBaseBroker {
                 sessionLogin.beginTransaction();
                 a.setUlogovan(true);
                 a.setLastLogin(new Date());
+                a.setTheme(admin.getTheme());
                 sessionLogin.update(a);
                 admin.setUlogovan(true);
                 sessionLogin.getTransaction().commit();
@@ -186,6 +187,7 @@ public class DataBaseBroker {
                 Session sessionLogout = HibernateUtility.getSessionFactory().openSession();
                 sessionLogout.beginTransaction();
                 a.setUlogovan(false);
+                a.setTheme(admin.getTheme());
                 sessionLogout.update(a);
                 sessionLogout.getTransaction().commit();
             }
