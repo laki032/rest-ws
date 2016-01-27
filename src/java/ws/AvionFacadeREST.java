@@ -13,6 +13,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import util.Messages;
 
 /**
  *
@@ -59,9 +60,9 @@ public class AvionFacadeREST {
     @Path("delete/{id}")
     public String remove(@PathParam("id") int id) {
         if (DataBaseBroker.remove(new Avion(id))) {
-            return "operacija brisanja aviona je uspesno izvrsena";
+            return Messages.PLANE_REMOVE_SUCCESS;
         } else {
-            return "operacija brisanja aviona nije uspesno izvrsena";
+            return Messages.PLANE_REMOVE_FAILURE;
         }
     }
 
@@ -72,10 +73,10 @@ public class AvionFacadeREST {
             //promeni id entity-ja na max avionID + 1
             entity.setAvionID(DataBaseBroker.getMaxAvionID() + 1);
             if (DataBaseBroker.create(entity)) {
-                return "operacija unosa aviona je uspesno izvrsena";
+                return Messages.PLANE_CREATE_SUCCESS;
             }
         }
-        return "operacija unosa aviona nije uspesno izvrsena";
+        return Messages.PLANE_CREATE_FAILURE;
     }
 
     @POST
@@ -84,9 +85,9 @@ public class AvionFacadeREST {
     public String edit(@PathParam("id") int id, Avion entity) {
         entity.setAvionID(id);
         if (DataBaseBroker.update(entity)) {
-            return "operacija izmene aviona je uspesno izvrsena";
+            return Messages.PLANE_EDIT_SUCCESS;
         } else {
-            return "operacija izmene aviona nije uspesno izvrsena";
+            return Messages.PLANE_EDIT_FAILURE;
         }
     }
 

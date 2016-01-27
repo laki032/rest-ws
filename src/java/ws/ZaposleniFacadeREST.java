@@ -14,6 +14,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import util.Messages;
 
 /**
  *
@@ -72,9 +73,9 @@ public class ZaposleniFacadeREST {
     @Path("delete/{id}")
     public String remove(@PathParam("id") String id) {
         if (DataBaseBroker.remove(new Zaposleni(id))) {
-            return "uspesno brisanje zaposlenog " + id;
+            return Messages.EMPLOYEE_REMOVE_SUCCESS;
         } else {
-            return "brisanje nije uspelo";
+            return Messages.EMPLOYEE_REMOVE_FAILURE;
         }
     }
 
@@ -83,9 +84,9 @@ public class ZaposleniFacadeREST {
     @Consumes("application/json")
     public String createAll(Zaposleni[] zapArr) {
         if (DataBaseBroker.saveAll(zapArr)) {
-            return "uspesno cuvanje kolekcije zaposlenih u bazi";
+            return Messages.EMPLOYEES_CREATE_SUCCESS;
         } else {
-            return "cuvanje vise zaposlenih nije uspesno izvrseno";
+            return Messages.EMPLOYEES_CREATE_FAILURE;
         }
     }
 
@@ -94,9 +95,9 @@ public class ZaposleniFacadeREST {
     @Consumes("application/json")
     public String edit(@PathParam("id") String id, Zaposleni entity) {
         if (DataBaseBroker.update(entity)) {
-            return "uspesna operacija izmene zaposlenog sa jmbgom " + id;
+            return Messages.EMPLOYEE_EDIT_SUCCESS;
         } else {
-            return "operacija izmene nije uspela";
+            return Messages.EMPLOYEE_EDIT_FAILURE;
         }
     }
 

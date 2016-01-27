@@ -13,6 +13,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import util.Messages;
 
 /**
  *
@@ -78,9 +79,9 @@ public class UlogeLicenceFacadeREST {
     @Consumes("application/json")
     public String novaLicenca(Licenca l) {
         if (DataBaseBroker.create(l)) {
-            return "uspesno uneta";
+            return Messages.LICENSE_CREATE_SUCCESS;
         } else {
-            return "nije uneta";
+            return Messages.LICENSE_CREATE_FAILURE;
         }
     }
 
@@ -89,9 +90,9 @@ public class UlogeLicenceFacadeREST {
     @Consumes("application/json")
     public String novaUloga(Uloga u) {
         if (DataBaseBroker.create(u)) {
-            return "uspesno uneta";
+            return Messages.ROLE_CREATE_SUCCESS;
         } else {
-            return "nije uneta";
+            return Messages.ROLE_CREATE_FAILURE;
         }
     }
 }

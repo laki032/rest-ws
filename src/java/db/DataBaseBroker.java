@@ -13,6 +13,7 @@ import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import util.HibernateUtility;
+import util.Messages;
 
 /**
  *
@@ -191,9 +192,9 @@ public class DataBaseBroker {
                 sessionLogout.update(a);
                 sessionLogout.getTransaction().commit();
             }
-            return "izlogovan";
+            return Messages.ADMIN_LOGOUT_SUCCESS;
         } catch (Exception e) {
-            return "nije uspesno izlogovan";
+            return Messages.ADMIN_LOGOUT_FAILURE;
         }
     }
 
