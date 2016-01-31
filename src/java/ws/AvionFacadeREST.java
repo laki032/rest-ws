@@ -1,12 +1,15 @@
 package ws;
 
 import db.DataBaseBroker;
+import domain.Avion;
 import domain.hibenate.HAbstractDomainObject;
 import domain.hibenate.HAvion;
 import domain.hibenate.HTipaviona;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -23,18 +26,16 @@ import util.Messages;
 @Path("avioni")
 public class AvionFacadeREST {
 
+    @PersistenceContext(unitName = "RESTWSAvioKompanijaPU")
+    private EntityManager em;
+
     public AvionFacadeREST() {
     }
 
     @GET
     @Produces("application/json")
-    public List<HAvion> findAll() {
-        List<HAvion> la = new ArrayList<>();
-        List<HAbstractDomainObject> lado = DataBaseBroker.getAll(new HAvion());
-        for (HAbstractDomainObject ado : lado) {
-            la.add((HAvion) ado);
-        }
-        return la;
+    public List<Avion> findAll() {
+        return em.createNamedQuery("Avion.findAll").getResultList();
     }
 
     @GET
