@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="domain">
+  <class name="domain.HZaposleni" table="zaposleni">
+    <id column="JMBG" name="jmbg">
+      <generator class="assigned"/>
+    </id>
+    <property column="imePrezime" name="imePrezime"/>
+    <property column="godinaRodjenja" name="godinaRodjenja" type="int"/>
+    <joined-subclass name="domain.HPilot" table="pilot">
+      <key column="JMBG"/>
+      <property name="ocenaStanja" type="boolean"/>
+      <property name="datumPregleda" type="java.util.Date"/>
+      <!--     <set name="ulogaList" cascade="all" lazy="false">
+                <key column="jmbg"/>
+                <one-to-many class="domain.Uloga"/>
+            </set>   !-->
+    </joined-subclass>
+    <joined-subclass name="domain.HAviomehanicar" table="aviomehanicar">
+      <key column="JMBG"/>
+      <property name="tipMehanicara"/>
+      <!--      <set name="licencaList" cascade="all" lazy="false">
+                <key column="jmbg" update="false"/>
+                <one-to-many class="domain.Licenca"/>
+            </set>  !-->
+    </joined-subclass>
+  </class>
+</hibernate-mapping>

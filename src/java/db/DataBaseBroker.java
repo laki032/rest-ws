@@ -1,6 +1,14 @@
 package db;
 
-import domain.*;
+import domain.hibenate.HUloga;
+import domain.hibenate.HAviomehanicar;
+import domain.hibenate.HZaposleni;
+import domain.hibenate.HAdmin;
+import domain.hibenate.HLicenca;
+import domain.hibenate.HPilot;
+import domain.hibenate.HAvion;
+import domain.hibenate.HAbstractDomainObject;
+import domain.hibenate.HTipaviona;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,21 +27,22 @@ import util.Messages;
  *
  * @author Lazar Vujadinovic
  */
+@Deprecated
 public class DataBaseBroker {
 
     private final static Logger log = Logger.getLogger(DataBaseBroker.class.getName());
         
-    public static List<AbstractDomainObject> getAll(AbstractDomainObject ado) {
+    public static List<HAbstractDomainObject> getAll(HAbstractDomainObject ado) {
         log.log(Level.INFO, "getAll {0}", ado.tableName());
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from " + ado.tableName());
-        List<AbstractDomainObject> lista = query.list();
+        List<HAbstractDomainObject> lista = query.list();
         session.getTransaction().commit();
         return lista;
     }
 
-    public static boolean create(AbstractDomainObject ado) {
+    public static boolean create(HAbstractDomainObject ado) {
         log.log(Level.INFO, "create {0}", ado);
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
@@ -42,7 +51,7 @@ public class DataBaseBroker {
         return true;
     }
 
-    public static boolean update(AbstractDomainObject ado) {
+    public static boolean update(HAbstractDomainObject ado) {
         log.log(Level.INFO, "update {0}", ado);
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
@@ -51,7 +60,7 @@ public class DataBaseBroker {
         return true;
     }
 
-    public static boolean remove(AbstractDomainObject ado) {
+    public static boolean remove(HAbstractDomainObject ado) {
         log.log(Level.INFO, "remove {0}", ado);
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
@@ -60,18 +69,18 @@ public class DataBaseBroker {
         return true;
     }
 
-    public static AbstractDomainObject getByCriteria(String id) {
+    public static HAbstractDomainObject getByCriteria(String id) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
-        AbstractDomainObject ado;
+        HAbstractDomainObject ado;
         try {
-            ado = (Zaposleni) session.get(Zaposleni.class, id);
+            ado = (HZaposleni) session.get(HZaposleni.class, id);
             log.log(Level.INFO, "getByCriteria Zaposleni {0}", id);
             if (ado == null) {
                 throw new Exception("nije zaposleni, nego avion");
             }
         } catch (Exception e) {
-            ado = (Avion) session.get(Avion.class, Integer.parseInt(id));
+            ado = (HAvion) session.get(HAvion.class, Integer.parseInt(id));
             log.log(Level.INFO, "getByCriteria Avion {0}", id);
         }
 
@@ -79,32 +88,32 @@ public class DataBaseBroker {
         return ado;
     }
 
-    public static List<AbstractDomainObject> getU_L(String id, int sk) {
+    public static List<HAbstractDomainObject> getU_L(String id, int sk) {
         log.log(Level.INFO, "getU_L {0}, sk: {1}", new Object[]{id, sk});
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
         Criteria crit = null;
-        List<AbstractDomainObject> lista;
+        List<HAbstractDomainObject> lista;
         switch (sk) {
             case 0: //vratiUlogeZaAvion
-                crit = session.createCriteria(Uloga.class);
+                crit = session.createCriteria(HUloga.class);
                 crit.setMaxResults(15);
-                crit.add(Restrictions.like("avion", new Avion(Integer.parseInt(id))));
+                crit.add(Restrictions.like("avion", new HAvion(Integer.parseInt(id))));
                 break;
             case 1: //vratiUlogeZaPilota
-                crit = session.createCriteria(Uloga.class);
+                crit = session.createCriteria(HUloga.class);
                 crit.setMaxResults(15);
-                crit.add(Restrictions.like("pilot", new Pilot(id)));
+                crit.add(Restrictions.like("pilot", new HPilot(id)));
                 break;
             case 2: //vratiLicenceZaTip
-                crit = session.createCriteria(Licenca.class);
+                crit = session.createCriteria(HLicenca.class);
                 crit.setMaxResults(15);
-                crit.add(Restrictions.like("tipaviona", new Tipaviona(Integer.parseInt(id))));
+                crit.add(Restrictions.like("tipaviona", new HTipaviona(Integer.parseInt(id))));
                 break;
             case 3: //vratiLicenceZaMehanicara
-                crit = session.createCriteria(Licenca.class);
+                crit = session.createCriteria(HLicenca.class);
                 crit.setMaxResults(15);
-                crit.add(Restrictions.like("aviomehanicar", new Aviomehanicar(id)));
+                crit.add(Restrictions.like("aviomehanicar", new HAviomehanicar(id)));
                 break;
         }
         lista = crit.list();
@@ -115,18 +124,18 @@ public class DataBaseBroker {
     public static int getMaxAvionID() {
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
-        Criteria criteria = session.createCriteria(Avion.class).setProjection(Projections.max("avionID"));
+        Criteria criteria = session.createCriteria(HAvion.class).setProjection(Projections.max("avionID"));
         Integer maxID = (Integer) criteria.uniqueResult();
         session.getTransaction().commit();
         return maxID;
     }
 
-    public static boolean saveAll(Zaposleni[] colZap) {
+    public static boolean saveAll(HZaposleni[] colZap) {
         log.log(Level.INFO, "saveAll {0}", colZap);
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
         try {
-            for (Zaposleni z : colZap) {
+            for (HZaposleni z : colZap) {
                 if (z.getPilot() != null) {
                     session.persist(z.getPilot());
                 }
@@ -142,17 +151,17 @@ public class DataBaseBroker {
         }
     }
 
-    public static Admin adminLogin(Admin a) {
+    public static HAdmin adminLogin(HAdmin a) {
         log.log(Level.INFO, "adminLogin {0}", a);
         try {
             Session sessionFind = HibernateUtility.getSessionFactory().openSession();
             sessionFind.beginTransaction();
-            Criteria crit = sessionFind.createCriteria(Admin.class);
+            Criteria crit = sessionFind.createCriteria(HAdmin.class);
             Criterion un = Restrictions.like("username", a.getUsername().trim());
             Criterion pass = Restrictions.like("password", a.getPassword());
             LogicalExpression andExp = Restrictions.and(un, pass);
             crit.add(andExp);
-            Admin admin = (Admin) crit.uniqueResult();
+            HAdmin admin = (HAdmin) crit.uniqueResult();
             sessionFind.getTransaction().commit();
 
             if (admin != null) {
@@ -171,17 +180,17 @@ public class DataBaseBroker {
         }
     }
 
-    public static String adminLogout(Admin a) {
+    public static String adminLogout(HAdmin a) {
         log.log(Level.INFO, "adminLogout {0}", a);
         try {
             Session sessionFind = HibernateUtility.getSessionFactory().openSession();
             sessionFind.beginTransaction();
-            Criteria crit = sessionFind.createCriteria(Admin.class);
+            Criteria crit = sessionFind.createCriteria(HAdmin.class);
             Criterion un = Restrictions.like("username", a);
             Criterion pass = Restrictions.like("password", a);
             LogicalExpression andExp = Restrictions.and(un, pass);
             crit.add(andExp);
-            Admin admin = (Admin) crit.uniqueResult();
+            HAdmin admin = (HAdmin) crit.uniqueResult();
             sessionFind.getTransaction().commit();
 
             if (admin != null) {

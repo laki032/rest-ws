@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="domain">
+  <class name="domain.HUloga" table="uloga">
+    <composite-id>
+      <key-many-to-one class="domain.Pilot" column="jmbg" foreign-key="jmbg" name="pilot"/>
+      <key-many-to-one class="domain.Avion" column="avionID" foreign-key="avionID" name="avion"/>
+    </composite-id>
+    <property column="nazivUloge" name="nazivUloge"/>
+    <property column="datum" name="datum" type="java.util.Date"/>
+  </class>
+</hibernate-mapping>

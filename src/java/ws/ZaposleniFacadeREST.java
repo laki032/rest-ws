@@ -1,10 +1,10 @@
 package ws;
 
 import db.DataBaseBroker;
-import domain.AbstractDomainObject;
-import domain.Aviomehanicar;
-import domain.Pilot;
-import domain.Zaposleni;
+import domain.hibenate.HAbstractDomainObject;
+import domain.hibenate.HAviomehanicar;
+import domain.hibenate.HPilot;
+import domain.hibenate.HZaposleni;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -29,11 +29,11 @@ public class ZaposleniFacadeREST {
 
     @GET
     @Produces("application/json")
-    public List<Zaposleni> findAll() {
-        List<Zaposleni> lz = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.getAll(new Zaposleni());
-        for (AbstractDomainObject ado : lado) {
-            lz.add((Zaposleni) ado);
+    public List<HZaposleni> findAll() {
+        List<HZaposleni> lz = new ArrayList<>();
+        List<HAbstractDomainObject> lado = DataBaseBroker.getAll(new HZaposleni());
+        for (HAbstractDomainObject ado : lado) {
+            lz.add((HZaposleni) ado);
         }
         return lz;
     }
@@ -41,18 +41,18 @@ public class ZaposleniFacadeREST {
     @GET
     @Path("{id}")
     @Produces("application/json")
-    public Zaposleni find(@PathParam("id") String id) {
-        return (Zaposleni) DataBaseBroker.getByCriteria(id);
+    public HZaposleni find(@PathParam("id") String id) {
+        return (HZaposleni) DataBaseBroker.getByCriteria(id);
     }
 
     @GET
     @Path("piloti")
     @Produces("application/json")
-    public List<Pilot> findAllPilot() {
-        List<Pilot> lz = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.getAll(new Pilot());
-        for (AbstractDomainObject ado : lado) {
-            lz.add((Pilot) ado);
+    public List<HPilot> findAllPilot() {
+        List<HPilot> lz = new ArrayList<>();
+        List<HAbstractDomainObject> lado = DataBaseBroker.getAll(new HPilot());
+        for (HAbstractDomainObject ado : lado) {
+            lz.add((HPilot) ado);
         }
         return lz;
     }
@@ -60,11 +60,11 @@ public class ZaposleniFacadeREST {
     @GET
     @Path("mehanicari")
     @Produces("application/json")
-    public List<Aviomehanicar> findAllAvioMehanicar() {
-        List<Aviomehanicar> lz = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.getAll(new Aviomehanicar());
-        for (AbstractDomainObject ado : lado) {
-            lz.add((Aviomehanicar) ado);
+    public List<HAviomehanicar> findAllAvioMehanicar() {
+        List<HAviomehanicar> lz = new ArrayList<>();
+        List<HAbstractDomainObject> lado = DataBaseBroker.getAll(new HAviomehanicar());
+        for (HAbstractDomainObject ado : lado) {
+            lz.add((HAviomehanicar) ado);
         }
         return lz;
     }
@@ -72,7 +72,7 @@ public class ZaposleniFacadeREST {
     @GET
     @Path("delete/{id}")
     public String remove(@PathParam("id") String id) {
-        if (DataBaseBroker.remove(new Zaposleni(id))) {
+        if (DataBaseBroker.remove(new HZaposleni(id))) {
             return Messages.EMPLOYEE_REMOVE_SUCCESS;
         } else {
             return Messages.EMPLOYEE_REMOVE_FAILURE;
@@ -82,7 +82,7 @@ public class ZaposleniFacadeREST {
     @POST
     @Path("createAll")
     @Consumes("application/json")
-    public String createAll(Zaposleni[] zapArr) {
+    public String createAll(HZaposleni[] zapArr) {
         if (DataBaseBroker.saveAll(zapArr)) {
             return Messages.EMPLOYEES_CREATE_SUCCESS;
         } else {
@@ -93,7 +93,7 @@ public class ZaposleniFacadeREST {
     @POST
     @Path("edit/{id}")
     @Consumes("application/json")
-    public String edit(@PathParam("id") String id, Zaposleni entity) {
+    public String edit(@PathParam("id") String id, HZaposleni entity) {
         if (DataBaseBroker.update(entity)) {
             return Messages.EMPLOYEE_EDIT_SUCCESS;
         } else {

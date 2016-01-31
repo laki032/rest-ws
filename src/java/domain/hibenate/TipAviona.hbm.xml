@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="domain">
-    
-    <class name="domain.Tipaviona" table="tipaviona">
-        <id column="tipID" name="tipID" type="int" >
-            <generator class="assigned"/>
-        </id>
-        <property column="naziv" name="naziv"/>
-        <!--     <set name="licencaList" cascade="all" table="licenca" lazy="false"> 
+  <class name="domain.HTipaviona" table="tipaviona">
+    <id column="tipID" name="tipID" type="int">
+      <generator class="assigned"/>
+    </id>
+    <property column="naziv" name="naziv"/>
+    <!--     <set name="licencaList" cascade="all" table="licenca" lazy="false"> 
             <key column="tipID" />
             <one-to-many class="domain.Licenca"/>
         </set>   !-->
-    </class>
+  </class>
 </hibernate-mapping>

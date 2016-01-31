@@ -1,4 +1,4 @@
-package domain;
+package domain.hibenate;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -7,15 +7,15 @@ import java.util.Date;
  *
  * @author Lazar Vujadinovic
  */
-public class Licenca extends AbstractDomainObject implements Serializable {
+public class HLicenca extends HAbstractDomainObject implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Date datumDobijanja;
-    private Aviomehanicar aviomehanicar;
-    private Tipaviona tipaviona;
+    private HAviomehanicar aviomehanicar;
+    private HTipaviona tipaviona;
 
-    public Licenca() {
+    public HLicenca() {
     }
 
     public String getJmbg() {
@@ -42,19 +42,19 @@ public class Licenca extends AbstractDomainObject implements Serializable {
         this.datumDobijanja = datumDobijanja;
     }
 
-    public Aviomehanicar getAviomehanicar() {
+    public HAviomehanicar getAviomehanicar() {
         return aviomehanicar;
     }
 
-    public void setAviomehanicar(Aviomehanicar aviomehanicar) {
+    public void setAviomehanicar(HAviomehanicar aviomehanicar) {
         this.aviomehanicar = aviomehanicar;
     }
 
-    public Tipaviona getTipaviona() {
+    public HTipaviona getTipaviona() {
         return tipaviona;
     }
 
-    public void setTipaviona(Tipaviona tipaviona) {
+    public void setTipaviona(HTipaviona tipaviona) {
         this.tipaviona = tipaviona;
     }
 

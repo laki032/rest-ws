@@ -1,4 +1,4 @@
-package domain;
+package domain.hibenate;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -8,18 +8,18 @@ import java.util.Set;
  *
  * @author Lazar Vujadinovic
  */
-public class Pilot extends Zaposleni implements Serializable {
+public class HPilot extends HZaposleni implements Serializable {
 
     private String jmbg;
     private boolean ocenaStanja;
     private Date datumPregleda;
 //    private Set<Uloga> ulogaList;
-    private Zaposleni zaposleni;
+    private HZaposleni zaposleni;
 
-    public Pilot() {
+    public HPilot() {
     }
 
-    public Pilot(String jmbg) {
+    public HPilot(String jmbg) {
         this.jmbg = jmbg;
     }
 
@@ -55,11 +55,11 @@ public class Pilot extends Zaposleni implements Serializable {
 //        this.ulogaList = ulogaList;
 //    }
 
-    public Zaposleni getZaposleni() {
+    public HZaposleni getZaposleni() {
         return zaposleni;
     }
 
-    public void setZaposleni(Zaposleni zaposleni) {
+    public void setZaposleni(HZaposleni zaposleni) {
         this.zaposleni = zaposleni;
     }
 

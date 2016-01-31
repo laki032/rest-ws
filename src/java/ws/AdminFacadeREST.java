@@ -5,7 +5,7 @@ import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import domain.Admin;
+import domain.hibenate.HAdmin;
 import javax.ws.rs.POST;
 
 /**
@@ -23,14 +23,14 @@ public class AdminFacadeREST  {
     @Path("login")
     @Consumes("application/json")
     @Produces("application/json")
-    public Admin login(Admin a) {
+    public HAdmin login(HAdmin a) {
         return DataBaseBroker.adminLogin(a);
     }
     
     @POST
     @Path("logout")
     @Consumes("application/json")
-    public String logout(Admin a) {
+    public String logout(HAdmin a) {
         return DataBaseBroker.adminLogout(a);
     }
 

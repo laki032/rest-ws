@@ -1,4 +1,4 @@
-package domain;
+package domain.hibenate;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -7,7 +7,7 @@ import java.util.Date;
  *
  * @author Lazar Vujadinovic
  */
-public class Admin implements Serializable {
+public class HAdmin implements Serializable {
 
     private String username;
     private String password;
@@ -16,10 +16,10 @@ public class Admin implements Serializable {
     private Date lastLogin;
     private boolean ulogovan;
 
-    public Admin() {
+    public HAdmin() {
     }
 
-    public Admin(String username) {
+    public HAdmin(String username) {
         this.username = username;
     }
 

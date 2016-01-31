@@ -1,9 +1,9 @@
 package ws;
 
 import db.DataBaseBroker;
-import domain.AbstractDomainObject;
-import domain.Licenca;
-import domain.Uloga;
+import domain.hibenate.HAbstractDomainObject;
+import domain.hibenate.HLicenca;
+import domain.hibenate.HUloga;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -29,11 +29,11 @@ public class UlogeLicenceFacadeREST {
     @GET
     @Path("avion/{id}")
     @Produces("application/json")
-    public List<Uloga> vratiUlogeZaAvion(@PathParam("id") int id) {
-        List<Uloga> lu = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.getU_L(id + "", 0);
-        for (AbstractDomainObject ado : lado) {
-            lu.add((Uloga) ado);
+    public List<HUloga> vratiUlogeZaAvion(@PathParam("id") int id) {
+        List<HUloga> lu = new ArrayList<>();
+        List<HAbstractDomainObject> lado = DataBaseBroker.getU_L(id + "", 0);
+        for (HAbstractDomainObject ado : lado) {
+            lu.add((HUloga) ado);
         }
         return lu;
     }
@@ -41,11 +41,11 @@ public class UlogeLicenceFacadeREST {
     @GET
     @Path("pilot/{id}")
     @Produces("application/json")
-    public List<Uloga> vratiUlogeZaPilota(@PathParam("id") String id) {
-        List<Uloga> lu = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.getU_L(id, 1);
-        for (AbstractDomainObject ado : lado) {
-            lu.add((Uloga) ado);
+    public List<HUloga> vratiUlogeZaPilota(@PathParam("id") String id) {
+        List<HUloga> lu = new ArrayList<>();
+        List<HAbstractDomainObject> lado = DataBaseBroker.getU_L(id, 1);
+        for (HAbstractDomainObject ado : lado) {
+            lu.add((HUloga) ado);
         }
         return lu;
     }
@@ -53,11 +53,11 @@ public class UlogeLicenceFacadeREST {
     @GET
     @Path("tip/{id}")
     @Produces("application/json")
-    public List<Licenca> vratiLicenceZaTip(@PathParam("id") int id) {
-        List<Licenca> ll = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.getU_L(id + "", 2);
-        for (AbstractDomainObject ado : lado) {
-            ll.add((Licenca) ado);
+    public List<HLicenca> vratiLicenceZaTip(@PathParam("id") int id) {
+        List<HLicenca> ll = new ArrayList<>();
+        List<HAbstractDomainObject> lado = DataBaseBroker.getU_L(id + "", 2);
+        for (HAbstractDomainObject ado : lado) {
+            ll.add((HLicenca) ado);
         }
         return ll;
     }
@@ -65,11 +65,11 @@ public class UlogeLicenceFacadeREST {
     @GET
     @Path("mehanicar/{id}")
     @Produces("application/json")
-    public List<Licenca> vratiLicenceZaMehanicara(@PathParam("id") String id) {
-        List<Licenca> ll = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.getU_L(id, 3);
-        for (AbstractDomainObject ado : lado) {
-            ll.add((Licenca) ado);
+    public List<HLicenca> vratiLicenceZaMehanicara(@PathParam("id") String id) {
+        List<HLicenca> ll = new ArrayList<>();
+        List<HAbstractDomainObject> lado = DataBaseBroker.getU_L(id, 3);
+        for (HAbstractDomainObject ado : lado) {
+            ll.add((HLicenca) ado);
         }
         return ll;
     }
@@ -77,7 +77,7 @@ public class UlogeLicenceFacadeREST {
     @POST
     @Path("licenca")
     @Consumes("application/json")
-    public String novaLicenca(Licenca l) {
+    public String novaLicenca(HLicenca l) {
         if (DataBaseBroker.create(l)) {
             return Messages.LICENSE_CREATE_SUCCESS;
         } else {
@@ -88,7 +88,7 @@ public class UlogeLicenceFacadeREST {
     @POST
     @Path("uloga")
     @Consumes("application/json")
-    public String novaUloga(Uloga u) {
+    public String novaUloga(HUloga u) {
         if (DataBaseBroker.create(u)) {
             return Messages.ROLE_CREATE_SUCCESS;
         } else {

@@ -1,4 +1,4 @@
-package domain;
+package domain.hibenate;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -7,7 +7,7 @@ import java.util.Set;
  *
  * @author Lazar Vujadinovic
  */
-public class Tipaviona extends AbstractDomainObject implements Serializable {
+public class HTipaviona extends HAbstractDomainObject implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private int tipID;
@@ -16,10 +16,10 @@ public class Tipaviona extends AbstractDomainObject implements Serializable {
 //    private Set<Avion> avionList;
 //    private Set<Licenca> licencaList;
     
-    public Tipaviona() {
+    public HTipaviona() {
     }
 
-    public Tipaviona(int tipID) {
+    public HTipaviona(int tipID) {
         this.tipID = tipID;
     }
 

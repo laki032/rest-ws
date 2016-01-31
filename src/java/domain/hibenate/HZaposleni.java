@@ -1,4 +1,4 @@
-package domain;
+package domain.hibenate;
 
 import java.io.Serializable;
 
@@ -6,18 +6,18 @@ import java.io.Serializable;
  *
  * @author Lazar Vujadinovic
  */
-public class Zaposleni extends AbstractDomainObject  implements Serializable {
+public class HZaposleni extends HAbstractDomainObject  implements Serializable {
     private static final long serialVersionUID = 1L;
     private String jmbg;
     private String imePrezime;
     private int godinaRodjenja;
-    private Pilot pilot;
-    private Aviomehanicar aviomehanicar;
+    private HPilot pilot;
+    private HAviomehanicar aviomehanicar;
 
-    public Zaposleni() {
+    public HZaposleni() {
     }
 
-    public Zaposleni(String jmbg) {
+    public HZaposleni(String jmbg) {
         this.jmbg = jmbg;
     }
 
@@ -45,19 +45,19 @@ public class Zaposleni extends AbstractDomainObject  implements Serializable {
         this.godinaRodjenja = godinaRodjenja;
     }
 
-    public Pilot getPilot() {
+    public HPilot getPilot() {
         return pilot;
     }
 
-    public void setPilot(Pilot pilot) {
+    public void setPilot(HPilot pilot) {
         this.pilot = pilot;
     }
 
-    public Aviomehanicar getAviomehanicar() {
+    public HAviomehanicar getAviomehanicar() {
         return aviomehanicar;
     }
 
-    public void setAviomehanicar(Aviomehanicar aviomehanicar) {
+    public void setAviomehanicar(HAviomehanicar aviomehanicar) {
         this.aviomehanicar = aviomehanicar;
     }
 

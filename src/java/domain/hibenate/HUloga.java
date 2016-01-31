@@ -1,4 +1,4 @@
-package domain;
+package domain.hibenate;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -7,15 +7,15 @@ import java.util.Date;
  *
  * @author Lazar Vujadinovic
  */
-public class Uloga extends AbstractDomainObject implements Serializable {
+public class HUloga extends HAbstractDomainObject implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private String nazivUloge;
-    private Pilot pilot;
-    private Avion avion;
+    private HPilot pilot;
+    private HAvion avion;
     private Date datum;
 
-    public Uloga() {
+    public HUloga() {
     }
 
     public String getNazivUloge() {
@@ -26,19 +26,19 @@ public class Uloga extends AbstractDomainObject implements Serializable {
         this.nazivUloge = nazivUloge;
     }
 
-    public Pilot getPilot() {
+    public HPilot getPilot() {
         return pilot;
     }
 
-    public void setPilot(Pilot pilot) {
+    public void setPilot(HPilot pilot) {
         this.pilot = pilot;
     }
 
-    public Avion getAvion() {
+    public HAvion getAvion() {
         return avion;
     }
 
-    public void setAvion(Avion avion) {
+    public void setAvion(HAvion avion) {
         this.avion = avion;
     }
 

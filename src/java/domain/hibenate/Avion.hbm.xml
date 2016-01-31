@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="domain">
+  <class name="domain.HAvion" table="avion">
+    <id column="avionID" name="avionID">
+      <generator class="assigned"/>
+    </id>
+    <property column="oznaka" name="oznaka"/>
+    <property column="godProizvodnje" name="godProizvodnje" type="int"/>
+    <property column="brojPutnika" name="brojPutnika" type="int"/>
+    <property column="nosivost" name="nosivost" type="int"/>
+    <many-to-one class="domain.HTipaviona" column="tipID" name="tipID"/>
+    <!--   <set name="ulogaList" cascade="all" lazy="false">
+            <key column="avionID"/>
+            <one-to-many class="domain.Uloga"/>
+        </set> !-->
+  </class>
+</hibernate-mapping>

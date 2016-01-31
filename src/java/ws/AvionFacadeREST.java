@@ -1,9 +1,9 @@
 package ws;
 
 import db.DataBaseBroker;
-import domain.AbstractDomainObject;
-import domain.Avion;
-import domain.Tipaviona;
+import domain.hibenate.HAbstractDomainObject;
+import domain.hibenate.HAvion;
+import domain.hibenate.HTipaviona;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -28,11 +28,11 @@ public class AvionFacadeREST {
 
     @GET
     @Produces("application/json")
-    public List<Avion> findAll() {
-        List<Avion> la = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.getAll(new Avion());
-        for (AbstractDomainObject ado : lado) {
-            la.add((Avion) ado);
+    public List<HAvion> findAll() {
+        List<HAvion> la = new ArrayList<>();
+        List<HAbstractDomainObject> lado = DataBaseBroker.getAll(new HAvion());
+        for (HAbstractDomainObject ado : lado) {
+            la.add((HAvion) ado);
         }
         return la;
     }
@@ -40,11 +40,11 @@ public class AvionFacadeREST {
     @GET
     @Path("tipovi")
     @Produces("application/json")
-    public List<Tipaviona> findAllTypes() {
-        List<Tipaviona> lt = new ArrayList<>();
-        List<AbstractDomainObject> lado = DataBaseBroker.getAll(new Tipaviona());
-        for (AbstractDomainObject ado : lado) {
-            lt.add((Tipaviona) ado);
+    public List<HTipaviona> findAllTypes() {
+        List<HTipaviona> lt = new ArrayList<>();
+        List<HAbstractDomainObject> lado = DataBaseBroker.getAll(new HTipaviona());
+        for (HAbstractDomainObject ado : lado) {
+            lt.add((HTipaviona) ado);
         }
         return lt;
     }
@@ -52,14 +52,14 @@ public class AvionFacadeREST {
     @GET
     @Path("{id}")
     @Produces("application/json")
-    public Avion find(@PathParam("id") int id) {
-        return (Avion) DataBaseBroker.getByCriteria(id + "");
+    public HAvion find(@PathParam("id") int id) {
+        return (HAvion) DataBaseBroker.getByCriteria(id + "");
     }
 
     @GET
     @Path("delete/{id}")
     public String remove(@PathParam("id") int id) {
-        if (DataBaseBroker.remove(new Avion(id))) {
+        if (DataBaseBroker.remove(new HAvion(id))) {
             return Messages.PLANE_REMOVE_SUCCESS;
         } else {
             return Messages.PLANE_REMOVE_FAILURE;
@@ -68,7 +68,7 @@ public class AvionFacadeREST {
 
     @POST
     @Consumes("application/json")
-    public String create(Avion entity) {
+    public String create(HAvion entity) {
         if (entity.getAvionID() == 0) {
             //promeni id entity-ja na max avionID + 1
             entity.setAvionID(DataBaseBroker.getMaxAvionID() + 1);
@@ -82,7 +82,7 @@ public class AvionFacadeREST {
     @POST
     @Path("edit/{id}")
     @Consumes("application/json")
-    public String edit(@PathParam("id") int id, Avion entity) {
+    public String edit(@PathParam("id") int id, HAvion entity) {
         entity.setAvionID(id);
         if (DataBaseBroker.update(entity)) {
             return Messages.PLANE_EDIT_SUCCESS;

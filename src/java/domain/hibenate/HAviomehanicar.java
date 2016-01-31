@@ -1,4 +1,4 @@
-package domain;
+package domain.hibenate;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -7,18 +7,18 @@ import java.util.Set;
  *
  * @author Lazar Vujadinovic
  */
-public class Aviomehanicar extends Zaposleni implements Serializable {
+public class HAviomehanicar extends HZaposleni implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private String jmbg;
     private String tipMehanicara;
-    private Zaposleni zaposleni;
+    private HZaposleni zaposleni;
 //    private Set<Licenca> licencaList;
 
-    public Aviomehanicar() {
+    public HAviomehanicar() {
     }
 
-    public Aviomehanicar(String jmbg) {
+    public HAviomehanicar(String jmbg) {
         this.jmbg = jmbg;
     }
 
@@ -38,11 +38,11 @@ public class Aviomehanicar extends Zaposleni implements Serializable {
         this.tipMehanicara = tipMehanicara;
     }
 
-    public Zaposleni getZaposleni() {
+    public HZaposleni getZaposleni() {
         return zaposleni;
     }
 
-    public void setZaposleni(Zaposleni zaposleni) {
+    public void setZaposleni(HZaposleni zaposleni) {
         this.zaposleni = zaposleni;
     }
 
