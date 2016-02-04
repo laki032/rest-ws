@@ -20,11 +20,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "uloga")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Uloga.findAll", query = "SELECT u FROM Uloga u"),
     @NamedQuery(name = "Uloga.findByJmbg", query = "SELECT u FROM Uloga u WHERE u.ulogaPK.jmbg = :jmbg"),
-    @NamedQuery(name = "Uloga.findByAvionID", query = "SELECT u FROM Uloga u WHERE u.ulogaPK.avionID = :avionID"),
-    @NamedQuery(name = "Uloga.findByNazivUloge", query = "SELECT u FROM Uloga u WHERE u.nazivUloge = :nazivUloge"),
-    @NamedQuery(name = "Uloga.findByDatum", query = "SELECT u FROM Uloga u WHERE u.ulogaPK.datum = :datum")})
+    @NamedQuery(name = "Uloga.findByAvionID", query = "SELECT u FROM Uloga u WHERE u.ulogaPK.avionID = :avionID")})
 public class Uloga implements Serializable {
 
     private static final long serialVersionUID = 1L;

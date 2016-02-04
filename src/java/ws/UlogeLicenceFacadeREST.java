@@ -1,12 +1,11 @@
 package ws;
 
-import db.DataBaseBroker;
-import domain.hibenate.HAbstractDomainObject;
-import domain.hibenate.HLicenca;
-import domain.hibenate.HUloga;
-import java.util.ArrayList;
+import domain.Licenca;
+import domain.Uloga;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -23,64 +22,48 @@ import util.Messages;
 @Path("U-L")
 public class UlogeLicenceFacadeREST {
 
+    @PersistenceContext(unitName = "RESTWSAvioKompanijaPU")
+    private EntityManager em;
+
     public UlogeLicenceFacadeREST() {
     }
 
     @GET
     @Path("avion/{id}")
     @Produces("application/json")
-    public List<HUloga> vratiUlogeZaAvion(@PathParam("id") int id) {
-        List<HUloga> lu = new ArrayList<>();
-        List<HAbstractDomainObject> lado = DataBaseBroker.getU_L(id + "", 0);
-        for (HAbstractDomainObject ado : lado) {
-            lu.add((HUloga) ado);
-        }
-        return lu;
+    public List<Uloga> vratiUlogeZaAvion(@PathParam("id") int id) {
+        return em.createNamedQuery("Uloga.findByAvionID").setParameter("avionID", id).getResultList();
     }
 
     @GET
     @Path("pilot/{id}")
     @Produces("application/json")
-    public List<HUloga> vratiUlogeZaPilota(@PathParam("id") String id) {
-        List<HUloga> lu = new ArrayList<>();
-        List<HAbstractDomainObject> lado = DataBaseBroker.getU_L(id, 1);
-        for (HAbstractDomainObject ado : lado) {
-            lu.add((HUloga) ado);
-        }
-        return lu;
+    public List<Uloga> vratiUlogeZaPilota(@PathParam("id") String id) {
+        return em.createNamedQuery("Uloga.findByJmbg").setParameter("jmbg", id).getResultList();
     }
 
     @GET
     @Path("tip/{id}")
     @Produces("application/json")
-    public List<HLicenca> vratiLicenceZaTip(@PathParam("id") int id) {
-        List<HLicenca> ll = new ArrayList<>();
-        List<HAbstractDomainObject> lado = DataBaseBroker.getU_L(id + "", 2);
-        for (HAbstractDomainObject ado : lado) {
-            ll.add((HLicenca) ado);
-        }
-        return ll;
+    public List<Licenca> vratiLicenceZaTip(@PathParam("id") int id) {
+        return em.createNamedQuery("Licenca.findByTipID").setParameter("tipID", id).getResultList();
     }
 
     @GET
     @Path("mehanicar/{id}")
     @Produces("application/json")
-    public List<HLicenca> vratiLicenceZaMehanicara(@PathParam("id") String id) {
-        List<HLicenca> ll = new ArrayList<>();
-        List<HAbstractDomainObject> lado = DataBaseBroker.getU_L(id, 3);
-        for (HAbstractDomainObject ado : lado) {
-            ll.add((HLicenca) ado);
-        }
-        return ll;
+    public List<Licenca> vratiLicenceZaMehanicara(@PathParam("id") String id) {
+        return em.createNamedQuery("Licenca.findByJmbg").setParameter("jmbg", id).getResultList();
     }
 
     @POST
     @Path("licenca")
     @Consumes("application/json")
-    public String novaLicenca(HLicenca l) {
-        if (DataBaseBroker.create(l)) {
+    public String novaLicenca(Licenca l) {
+        try {
+            em.persist(l);
             return Messages.LICENSE_CREATE_SUCCESS;
-        } else {
+        } catch (Exception e) {
             return Messages.LICENSE_CREATE_FAILURE;
         }
     }
@@ -88,10 +71,11 @@ public class UlogeLicenceFacadeREST {
     @POST
     @Path("uloga")
     @Consumes("application/json")
-    public String novaUloga(HUloga u) {
-        if (DataBaseBroker.create(u)) {
+    public String novaUloga(Uloga u) {
+        try {
+            em.persist(u);
             return Messages.ROLE_CREATE_SUCCESS;
-        } else {
+        } catch (Exception e) {
             return Messages.ROLE_CREATE_FAILURE;
         }
     }

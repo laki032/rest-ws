@@ -1,22 +1,18 @@
 package domain;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * @author laki
@@ -26,8 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Aviomehanicar.findAll", query = "SELECT a FROM Aviomehanicar a"),
-    @NamedQuery(name = "Aviomehanicar.findByJmbg", query = "SELECT a FROM Aviomehanicar a WHERE a.jmbg = :jmbg"),
-    @NamedQuery(name = "Aviomehanicar.findByTipMehanicara", query = "SELECT a FROM Aviomehanicar a WHERE a.tipMehanicara = :tipMehanicara")})
+    @NamedQuery(name = "Aviomehanicar.findByJmbg", query = "SELECT a FROM Aviomehanicar a WHERE a.jmbg = :jmbg")})
 public class Aviomehanicar implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,8 +38,6 @@ public class Aviomehanicar implements Serializable {
     @JoinColumn(name = "JMBG", referencedColumnName = "JMBG", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Zaposleni zaposleni;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aviomehanicar")
-    private List<Licenca> licencaList;
 
     public Aviomehanicar() {
     }
@@ -75,15 +68,6 @@ public class Aviomehanicar implements Serializable {
 
     public void setZaposleni(Zaposleni zaposleni) {
         this.zaposleni = zaposleni;
-    }
-
-    @XmlTransient
-    public List<Licenca> getLicencaList() {
-        return licencaList;
-    }
-
-    public void setLicencaList(List<Licenca> licencaList) {
-        this.licencaList = licencaList;
     }
 
     @Override

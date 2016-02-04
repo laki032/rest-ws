@@ -3,13 +3,11 @@ package domain;
 import java.io.Serializable;
 import java.math.BigInteger;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -38,10 +36,6 @@ public class Zaposleni implements Serializable {
     private String imePrezime;
     @Column(name = "godinaRodjenja")
     private BigInteger godinaRodjenja;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "zaposleni")
-    private Pilot pilot;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "zaposleni")
-    private Aviomehanicar aviomehanicar;
 
     public Zaposleni() {
     }
@@ -72,22 +66,6 @@ public class Zaposleni implements Serializable {
 
     public void setGodinaRodjenja(BigInteger godinaRodjenja) {
         this.godinaRodjenja = godinaRodjenja;
-    }
-
-    public Pilot getPilot() {
-        return pilot;
-    }
-
-    public void setPilot(Pilot pilot) {
-        this.pilot = pilot;
-    }
-
-    public Aviomehanicar getAviomehanicar() {
-        return aviomehanicar;
-    }
-
-    public void setAviomehanicar(Aviomehanicar aviomehanicar) {
-        this.aviomehanicar = aviomehanicar;
     }
 
     @Override

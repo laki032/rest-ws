@@ -23,9 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "tipaviona")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tipaviona.findAll", query = "SELECT t FROM Tipaviona t"),
-    @NamedQuery(name = "Tipaviona.findByTipID", query = "SELECT t FROM Tipaviona t WHERE t.tipID = :tipID"),
-    @NamedQuery(name = "Tipaviona.findByNaziv", query = "SELECT t FROM Tipaviona t WHERE t.naziv = :naziv")})
+    @NamedQuery(name = "Tipaviona.findAll", query = "SELECT t FROM Tipaviona t")})
 public class Tipaviona implements Serializable {
 
     private static final long serialVersionUID = 1L;
