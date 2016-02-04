@@ -2,14 +2,19 @@ package domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -20,13 +25,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "uloga")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Uloga.findByJmbg", query = "SELECT u FROM Uloga u WHERE u.ulogaPK.jmbg = :jmbg"),
-    @NamedQuery(name = "Uloga.findByAvionID", query = "SELECT u FROM Uloga u WHERE u.ulogaPK.avionID = :avionID")})
+    @NamedQuery(name = "Uloga.findByJmbg", query = "SELECT u FROM Uloga u WHERE u.jmbg = :jmbg"),
+    @NamedQuery(name = "Uloga.findByAvionID", query = "SELECT u FROM Uloga u WHERE u.avionID = :avionID")})
 public class Uloga implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected UlogaPK ulogaPK;
     @Size(max = 20)
     @Column(name = "nazivUloge")
     private String nazivUloge;
@@ -36,24 +39,49 @@ public class Uloga implements Serializable {
     @JoinColumn(name = "avionID", referencedColumnName = "avionID", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Avion avion;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 13)
+    @Column(name = "JMBG")
+    private String jmbg;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "avionID")
+    private long avionID;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "datum")
+    @Temporal(TemporalType.DATE)
+    private Date datum;
 
     public Uloga() {
     }
 
-    public Uloga(UlogaPK ulogaPK) {
-        this.ulogaPK = ulogaPK;
+    public String getJmbg() {
+        return jmbg;
     }
 
-    public Uloga(String jmbg, long avionID, Date datum) {
-        this.ulogaPK = new UlogaPK(jmbg, avionID, datum);
+    public void setJmbg(String jmbg) {
+        this.jmbg = jmbg;
     }
 
-    public UlogaPK getUlogaPK() {
-        return ulogaPK;
+    public long getAvionID() {
+        return avionID;
     }
 
-    public void setUlogaPK(UlogaPK ulogaPK) {
-        this.ulogaPK = ulogaPK;
+    public void setAvionID(long avionID) {
+        this.avionID = avionID;
+    }
+
+    public Date getDatum() {
+        return datum;
+    }
+
+    public void setDatum(Date datum) {
+        this.datum = datum;
     }
 
     public String getNazivUloge() {
@@ -83,7 +111,6 @@ public class Uloga implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (ulogaPK != null ? ulogaPK.hashCode() : 0);
         return hash;
     }
 
@@ -94,15 +121,12 @@ public class Uloga implements Serializable {
             return false;
         }
         Uloga other = (Uloga) object;
-        if ((this.ulogaPK == null && other.ulogaPK != null) || (this.ulogaPK != null && !this.ulogaPK.equals(other.ulogaPK))) {
-            return false;
-        }
-        return true;
+        return other.getJmbg().equals(this.getJmbg());
     }
 
     @Override
     public String toString() {
-        return "domain.Uloga[ ulogaPK=" + ulogaPK + " ]";
+        return "domain.Uloga[ ulogaPK=" + jmbg + " ]";
     }
 
 }
