@@ -34,7 +34,7 @@ public class AvionFacadeREST {
     public List<Avion> findAll() {
         return em.createNamedQuery("Avion.findAll").getResultList();
     }
-
+    
     @GET
     @Path("tipovi")
     @Produces("application/json")
@@ -67,7 +67,8 @@ public class AvionFacadeREST {
         try {
             if (entity.getAvionID() == 0) {
                 //promeni id entity-ja na max avionID + 1
-                entity.setAvionID(new Long(DataBaseBroker.getMaxAvionID() + 1));
+                Long max = (Long) em.createNamedQuery("Avion.maxID").getSingleResult();
+                entity.setAvionID(max + 1);
                 em.persist(entity);
             }
             return Messages.PLANE_CREATE_SUCCESS;
@@ -77,10 +78,9 @@ public class AvionFacadeREST {
     }
 
     @POST
-    @Path("edit/{id}")
+    @Path("edit")
     @Consumes("application/json")
-    public String edit(@PathParam("id") int id, Avion entity) {
-        entity.setAvionID(new Long(id));
+    public String edit(Avion entity) {
         try {
             em.merge(entity);
             return Messages.PLANE_EDIT_SUCCESS;

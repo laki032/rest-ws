@@ -27,7 +27,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Avion.findAll", query = "SELECT a FROM Avion a"),
-    @NamedQuery(name = "Avion.findByAvionID", query = "SELECT a FROM Avion a WHERE a.avionID = :avionID")})
+    @NamedQuery(name = "Avion.findByAvionID", query = "SELECT a FROM Avion a WHERE a.avionID = :avionID"),
+    @NamedQuery(name = "Avion.maxID", query = "SELECT MAX(a.avionID) FROM Avion a")})
 public class Avion implements Serializable {
 
     private static final long serialVersionUID = 1L;

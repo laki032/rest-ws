@@ -7,13 +7,13 @@ import org.hibernate.cfg.*;
 @Deprecated
 public class HibernateUtility {
 
-    private static final SessionFactory sessionFactory;
+    private static SessionFactory sessionFactory;
     private final static Logger log;
-    
+
     static {
         log = Logger.getLogger(HibernateUtility.class.getName());
         try {
-            sessionFactory = new Configuration().configure().buildSessionFactory();
+//            sessionFactory = new Configuration().configure().buildSessionFactory();
             log.info("SessionFactory init success");
         } catch (Throwable ex) {
             log.severe("SessionFactory init falure");
