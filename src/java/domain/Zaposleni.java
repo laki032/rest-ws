@@ -23,9 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Zaposleni.findAll", query = "SELECT z FROM Zaposleni z"),
-    @NamedQuery(name = "Zaposleni.findByJmbg", query = "SELECT z FROM Zaposleni z WHERE z.jmbg = :jmbg"),
-    @NamedQuery(name = "Zaposleni.findByImePrezime", query = "SELECT z FROM Zaposleni z WHERE z.imePrezime = :imePrezime"),
-    @NamedQuery(name = "Zaposleni.findByGodinaRodjenja", query = "SELECT z FROM Zaposleni z WHERE z.godinaRodjenja = :godinaRodjenja")})
+    @NamedQuery(name = "Zaposleni.findByJmbg", query = "SELECT z FROM Zaposleni z WHERE z.jmbg = :jmbg")})
 public class Zaposleni implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -94,9 +92,7 @@ public class Zaposleni implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (jmbg != null ? jmbg.hashCode() : 0);
-        return hash;
+        return jmbg != null ? jmbg.hashCode() : 0;
     }
 
     @Override
@@ -114,7 +110,7 @@ public class Zaposleni implements Serializable {
 
     @Override
     public String toString() {
-        return "domain.Zaposleni[ jmbg=" + jmbg + " ]";
+        return "Zaposleni[ jmbg=" + jmbg + " ]";
     }
 
 }

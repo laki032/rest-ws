@@ -27,11 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Avion.findAll", query = "SELECT a FROM Avion a"),
-    @NamedQuery(name = "Avion.findByAvionID", query = "SELECT a FROM Avion a WHERE a.avionID = :avionID"),
-    @NamedQuery(name = "Avion.findByOznaka", query = "SELECT a FROM Avion a WHERE a.oznaka = :oznaka"),
-    @NamedQuery(name = "Avion.findByGodProizvodnje", query = "SELECT a FROM Avion a WHERE a.godProizvodnje = :godProizvodnje"),
-    @NamedQuery(name = "Avion.findByBrojPutnika", query = "SELECT a FROM Avion a WHERE a.brojPutnika = :brojPutnika"),
-    @NamedQuery(name = "Avion.findByNosivost", query = "SELECT a FROM Avion a WHERE a.nosivost = :nosivost")})
+    @NamedQuery(name = "Avion.findByAvionID", query = "SELECT a FROM Avion a WHERE a.avionID = :avionID")})
 public class Avion implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -121,9 +117,7 @@ public class Avion implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (avionID != null ? avionID.hashCode() : 0);
-        return hash;
+        return avionID != null ? avionID.hashCode() : 0;
     }
 
     @Override
@@ -133,15 +127,12 @@ public class Avion implements Serializable {
             return false;
         }
         Avion other = (Avion) object;
-        if ((this.avionID == null && other.avionID != null) || (this.avionID != null && !this.avionID.equals(other.avionID))) {
-            return false;
-        }
-        return true;
+        return this.avionID == null || other.avionID == null || !this.avionID.equals(other.avionID);
     }
 
     @Override
     public String toString() {
-        return "domain.Avion[ avionID=" + avionID + " ]";
+        return "Avion[ ID=" + avionID + " ]";
     }
 
 }

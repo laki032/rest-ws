@@ -2,10 +2,7 @@ package ws;
 
 import db.DataBaseBroker;
 import domain.Avion;
-import domain.hibenate.HAbstractDomainObject;
-import domain.hibenate.HAvion;
-import domain.hibenate.HTipaviona;
-import java.util.ArrayList;
+import domain.Tipaviona;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -41,53 +38,53 @@ public class AvionFacadeREST {
     @GET
     @Path("tipovi")
     @Produces("application/json")
-    public List<HTipaviona> findAllTypes() {
-        List<HTipaviona> lt = new ArrayList<>();
-        List<HAbstractDomainObject> lado = DataBaseBroker.getAll(new HTipaviona());
-        for (HAbstractDomainObject ado : lado) {
-            lt.add((HTipaviona) ado);
-        }
-        return lt;
+    public List<Tipaviona> findAllTypes() {
+        return em.createNamedQuery("Tipaviona.findAll").getResultList();
     }
 
     @GET
     @Path("{id}")
     @Produces("application/json")
-    public HAvion find(@PathParam("id") int id) {
-        return (HAvion) DataBaseBroker.getByCriteria(id + "");
+    public Avion find(@PathParam("id") int id) {
+        return em.find(Avion.class, new Long(id));
     }
 
     @GET
     @Path("delete/{id}")
     public String remove(@PathParam("id") int id) {
-        if (DataBaseBroker.remove(new HAvion(id))) {
+        try {
+            Avion a = em.find(Avion.class, new Long(id));
+            em.remove(a);
             return Messages.PLANE_REMOVE_SUCCESS;
-        } else {
+        } catch (Exception e) {
             return Messages.PLANE_REMOVE_FAILURE;
         }
     }
 
     @POST
     @Consumes("application/json")
-    public String create(HAvion entity) {
-        if (entity.getAvionID() == 0) {
-            //promeni id entity-ja na max avionID + 1
-            entity.setAvionID(DataBaseBroker.getMaxAvionID() + 1);
-            if (DataBaseBroker.create(entity)) {
-                return Messages.PLANE_CREATE_SUCCESS;
+    public String create(Avion entity) {
+        try {
+            if (entity.getAvionID() == 0) {
+                //promeni id entity-ja na max avionID + 1
+                entity.setAvionID(new Long(DataBaseBroker.getMaxAvionID() + 1));
+                em.persist(entity);
             }
+            return Messages.PLANE_CREATE_SUCCESS;
+        } catch (Exception e) {
+            return Messages.PLANE_CREATE_FAILURE;
         }
-        return Messages.PLANE_CREATE_FAILURE;
     }
 
     @POST
     @Path("edit/{id}")
     @Consumes("application/json")
-    public String edit(@PathParam("id") int id, HAvion entity) {
-        entity.setAvionID(id);
-        if (DataBaseBroker.update(entity)) {
+    public String edit(@PathParam("id") int id, Avion entity) {
+        entity.setAvionID(new Long(id));
+        try {
+            em.merge(entity);
             return Messages.PLANE_EDIT_SUCCESS;
-        } else {
+        } catch (Exception e) {
             return Messages.PLANE_EDIT_FAILURE;
         }
     }
