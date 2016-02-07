@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.POST;
+import util.Encryptor;
 import util.Messages;
 
 /**
@@ -31,6 +32,7 @@ public class AdminFacadeREST {
     @Produces("application/json")
     public Admin login(Admin a) {
         Admin admin = (Admin) em.createNamedQuery("Admin.findByUsername").setParameter("username", a.getUsername()).getSingleResult();
+        a.setPassword(Encryptor.decrypt(a.getPassword()));
         if (admin.getUsername().equals(a.getUsername()) && admin.getPassword().equals(a.getPassword())) {
             a.setUlogovan(true);
             a.setLastLogin(new Date());
@@ -46,6 +48,7 @@ public class AdminFacadeREST {
     @Consumes("application/json")
     public String logout(Admin a) {
         Admin admin = (Admin) em.createNamedQuery("Admin.findByUsername").setParameter("username", a.getUsername()).getSingleResult();
+        a.setPassword(Encryptor.decrypt(a.getPassword()));
         if (admin.getUsername().equals(a.getUsername()) && admin.getPassword().equals(a.getPassword())) {
             a.setUlogovan(false);
             a.setTheme(admin.getTheme());

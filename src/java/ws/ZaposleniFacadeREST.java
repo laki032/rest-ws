@@ -3,8 +3,6 @@ package ws;
 import domain.Aviomehanicar;
 import domain.Pilot;
 import domain.Zaposleni;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
