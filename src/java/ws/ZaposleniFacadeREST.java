@@ -1,8 +1,10 @@
 package ws;
 
+import db.DataBaseBroker;
 import domain.Aviomehanicar;
 import domain.Pilot;
 import domain.Zaposleni;
+import domain.hibenate.HZaposleni;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -75,6 +77,8 @@ public class ZaposleniFacadeREST {
         try {
             for (Zaposleni z : zapArr) {
                 em.persist(z);
+                if(z.getMehanicar() != null) em.persist(z.getMehanicar());
+                if(z.getPilot() != null) em.persist(z.getPilot());
             }
             return Messages.EMPLOYEES_CREATE_SUCCESS;
         } catch (Exception e) {
@@ -83,9 +87,21 @@ public class ZaposleniFacadeREST {
     }
 
     @POST
-    @Path("edit")
+    @Path("edit/mehanicar")
     @Consumes("application/json")
-    public String edit(Zaposleni entity) {
+    public String editMehanicar(Aviomehanicar entity) {
+        try {
+            em.merge(entity);
+            return Messages.EMPLOYEE_EDIT_SUCCESS;
+        } catch (Exception e) {
+            return Messages.EMPLOYEE_EDIT_FAILURE;
+        }
+    }
+
+    @POST
+    @Path("edit/pilot")
+    @Consumes("application/json")
+    public String editPilot(Pilot entity) {
         try {
             em.merge(entity);
             return Messages.EMPLOYEE_EDIT_SUCCESS;

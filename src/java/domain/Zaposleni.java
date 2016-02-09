@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -36,6 +37,11 @@ public class Zaposleni implements Serializable {
     private String imePrezime;
     @Column(name = "godinaRodjenja")
     private BigInteger godinaRodjenja;
+
+    @Transient
+    private Pilot pilot;
+    @Transient
+    private Aviomehanicar mehanicar;
 
     public Zaposleni() {
     }
@@ -66,6 +72,22 @@ public class Zaposleni implements Serializable {
 
     public void setGodinaRodjenja(BigInteger godinaRodjenja) {
         this.godinaRodjenja = godinaRodjenja;
+    }
+
+    public Pilot getPilot() {
+        return pilot;
+    }
+
+    public void setPilot(Pilot pilot) {
+        this.pilot = pilot;
+    }
+
+    public Aviomehanicar getMehanicar() {
+        return mehanicar;
+    }
+
+    public void setMehanicar(Aviomehanicar mehanicar) {
+        this.mehanicar = mehanicar;
     }
 
     @Override

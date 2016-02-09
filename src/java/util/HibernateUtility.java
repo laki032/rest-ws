@@ -2,7 +2,6 @@ package util;
 
 import java.util.logging.Logger;
 import org.hibernate.*;
-import org.hibernate.cfg.*;
 
 @Deprecated
 public class HibernateUtility {
