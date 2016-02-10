@@ -2,9 +2,10 @@ package domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -12,6 +13,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -21,13 +24,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "licenca")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Licenca.findByJmbg", query = "SELECT l FROM Licenca l WHERE l.licencaPK.jmbg = :jmbg"),
-    @NamedQuery(name = "Licenca.findByTipID", query = "SELECT l FROM Licenca l WHERE l.licencaPK.tipID = :tipID")})
+    @NamedQuery(name = "Licenca.findByJmbg", query = "SELECT l FROM Licenca l WHERE l.jmbg = :jmbg"),
+    @NamedQuery(name = "Licenca.findByTipID", query = "SELECT l FROM Licenca l WHERE l.tipID = :tipID")})
 public class Licenca implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected LicencaPK licencaPK;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 13)
+    @Column(name = "JMBG")
+    private String jmbg;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "tipID")
+    private long tipID;
     @Column(name = "datumDobijanja")
     @Temporal(TemporalType.DATE)
     private Date datumDobijanja;
@@ -41,20 +53,25 @@ public class Licenca implements Serializable {
     public Licenca() {
     }
 
-    public Licenca(LicencaPK licencaPK) {
-        this.licencaPK = licencaPK;
-    }
-
     public Licenca(String jmbg, long tipID) {
-        this.licencaPK = new LicencaPK(jmbg, tipID);
+        this.jmbg = jmbg;
+        this.tipID = tipID;
     }
 
-    public LicencaPK getLicencaPK() {
-        return licencaPK;
+    public String getJmbg() {
+        return jmbg;
     }
 
-    public void setLicencaPK(LicencaPK licencaPK) {
-        this.licencaPK = licencaPK;
+    public void setJmbg(String jmbg) {
+        this.jmbg = jmbg;
+    }
+
+    public long getTipID() {
+        return tipID;
+    }
+
+    public void setTipID(long tipID) {
+        this.tipID = tipID;
     }
 
     public Date getDatumDobijanja() {
@@ -84,26 +101,12 @@ public class Licenca implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (licencaPK != null ? licencaPK.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Licenca)) {
-            return false;
-        }
-        Licenca other = (Licenca) object;
-        if ((this.licencaPK == null && other.licencaPK != null) || (this.licencaPK != null && !this.licencaPK.equals(other.licencaPK))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "domain.Licenca[ licencaPK=" + licencaPK + " ]";
+        return "domain.Licenca[ licencaPK=" + tipID + " ]";
     }
 
 }

@@ -1,10 +1,8 @@
 package ws;
 
-import db.DataBaseBroker;
 import domain.Aviomehanicar;
 import domain.Pilot;
 import domain.Zaposleni;
-import domain.hibenate.HZaposleni;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
